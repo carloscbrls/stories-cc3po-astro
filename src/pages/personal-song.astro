@@ -1,0 +1,241 @@
+---
+import BaseHead from '../components/BaseHead.astro';
+import Footer from '../components/Footer.astro';
+
+const SITE_TITLE = 'Personal Song — A Song Written Just For Them | CC3PO Stories';
+const SITE_DESCRIPTION = 'A custom song composed from their stories. Not a template — a unique piece of music that sounds like who they are. Starting at $199.';
+const canonicalURL = new URL(Astro.url.pathname, 'https://stories.cc3po.com');
+const ogImage = 'https://cc3po.com/wp-content/uploads/2026/04/Color-Logo-New.png';
+---
+
+<!doctype html>
+<html lang="en">
+<head>
+    <BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
+    <link rel="canonical" href={canonicalURL} />
+    <meta property="og:title" content={SITE_TITLE} />
+    <meta property="og:description" content={SITE_DESCRIPTION} />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:url" content={canonicalURL} />
+    <meta property="og:type" content="website" />
+    <meta name="twitter:card" content="summary_large_image" />
+
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        :root {
+            --bg: #0a0a0b;
+            --surface: #111114;
+            --surface-light: #1a1a1f;
+            --text: #f0f0f0;
+            --text-muted: #a1a1aa;
+            --cyan: #00d4ff;
+            --warm: #f59e0b;
+            --warm-soft: rgba(245, 158, 11, 0.1);
+            --rose: #e94560;
+            --violet: #7c3aed;
+            --gradient: linear-gradient(135deg, #00d4ff, #7c3aed, #e94560);
+            --gradient-warm: linear-gradient(135deg, #f59e0b, #e94560, #7c3aed);
+        }
+        body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif; background: var(--bg); color: var(--text); line-height: 1.7; overflow-x: hidden; }
+        .gradient-text-warm { background: var(--gradient-warm); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+        .back-link { display: inline-flex; align-items: center; gap: 8px; color: var(--text-muted); text-decoration: none; font-size: 14px; padding: 16px 24px 0; transition: color 0.2s; }
+        .back-link:hover { color: var(--warm); }
+        .hero { min-height: 70vh; display: flex; align-items: center; justify-content: center; text-align: center; padding: 40px 24px; position: relative; }
+        .hero::before { content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: radial-gradient(ellipse at 50% 50%, rgba(233, 69, 96, 0.06) 0%, transparent 60%); pointer-events: none; }
+        .hero-content { max-width: 720px; position: relative; z-index: 1; }
+        .hero-icon { font-size: 64px; margin-bottom: 24px; }
+        .hero-label { display: inline-block; padding: 8px 20px; background: rgba(233, 69, 96, 0.1); border: 1px solid rgba(233, 69, 96, 0.3); border-radius: 100px; font-size: 14px; font-weight: 600; color: var(--rose); margin-bottom: 24px; letter-spacing: 0.05em; text-transform: uppercase; }
+        .hero h1 { font-size: clamp(32px, 5vw, 56px); font-weight: 800; line-height: 1.15; margin-bottom: 20px; }
+        .hero p { font-size: 19px; color: var(--text-muted); margin-bottom: 32px; line-height: 1.6; }
+        .hero-quote { font-size: 17px; font-style: italic; color: var(--text-muted); border-left: 3px solid var(--rose); padding-left: 20px; margin: 32px 0; text-align: left; }
+        .btn-primary { display: inline-block; padding: 18px 40px; background: var(--gradient-warm); color: white; font-size: 18px; font-weight: 700; text-decoration: none; border-radius: 16px; transition: transform 0.2s, box-shadow 0.2s; }
+        .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 12px 40px rgba(233, 69, 96, 0.3); }
+        .btn-outline { display: inline-block; padding: 14px 32px; background: transparent; color: var(--rose); font-size: 16px; font-weight: 600; text-decoration: none; border-radius: 12px; border: 1px solid rgba(233, 69, 96, 0.4); transition: all 0.2s; }
+        .btn-outline:hover { background: rgba(233, 69, 96, 0.1); }
+        .section { padding: 80px 24px; max-width: 1100px; margin: 0 auto; }
+        .section-title { font-size: clamp(26px, 4vw, 40px); font-weight: 800; text-align: center; margin-bottom: 16px; }
+        .section-sub { font-size: 18px; color: var(--text-muted); text-align: center; max-width: 640px; margin: 0 auto 60px; }
+        .features-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px; }
+        .feature-card { background: var(--surface); border: 1px solid rgba(255, 255, 255, 0.06); border-radius: 20px; padding: 32px; }
+        .feature-card .icon { font-size: 32px; margin-bottom: 12px; }
+        .feature-card h3 { font-size: 18px; font-weight: 700; margin-bottom: 8px; }
+        .feature-card p { color: var(--text-muted); font-size: 15px; line-height: 1.6; }
+        .steps { display: flex; flex-direction: column; gap: 48px; max-width: 640px; margin: 0 auto; }
+        .step { display: flex; gap: 24px; align-items: flex-start; }
+        .step-number { width: 48px; height: 48px; background: var(--gradient-warm); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 20px; font-weight: 800; color: white; flex-shrink: 0; }
+        .step-content h3 { font-size: 20px; font-weight: 700; margin-bottom: 8px; }
+        .step-content p { color: var(--text-muted); font-size: 16px; }
+        .pricing-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px; }
+        .pricing-card { background: var(--surface); border: 1px solid rgba(255, 255, 255, 0.06); border-radius: 20px; padding: 40px 32px; text-align: center; transition: transform 0.25s, border-color 0.25s; }
+        .pricing-card:hover { transform: translateY(-4px); border-color: rgba(233, 69, 96, 0.3); }
+        .pricing-card.featured { border-color: rgba(233, 69, 96, 0.4); background: linear-gradient(180deg, rgba(233, 69, 96, 0.05), var(--surface)); }
+        .pricing-label { font-size: 13px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; color: var(--rose); margin-bottom: 8px; }
+        .pricing-card h3 { font-size: 24px; font-weight: 800; margin-bottom: 8px; }
+        .pricing-amount { font-size: 48px; font-weight: 800; margin-bottom: 4px; }
+        .pricing-desc { color: var(--text-muted); font-size: 15px; margin-bottom: 24px; }
+        .pricing-features { list-style: none; text-align: left; margin-bottom: 32px; }
+        .pricing-features li { padding: 8px 0; border-bottom: 1px solid rgba(255, 255, 255, 0.04); font-size: 15px; color: var(--text-muted); }
+        .pricing-features li::before { content: '✓ '; color: var(--rose); font-weight: 700; }
+        .cta { text-align: center; padding: 80px 24px; }
+        .cta h2 { font-size: clamp(28px, 4vw, 42px); font-weight: 800; margin-bottom: 16px; }
+        .cta p { font-size: 18px; color: var(--text-muted); margin-bottom: 32px; max-width: 540px; margin-left: auto; margin-right: auto; }
+        @media (max-width: 768px) {
+            .hero { padding: 40px 20px; }
+            .section { padding: 60px 20px; }
+            .pricing-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <a href="/" class="back-link">← Back to all services</a>
+
+    <section class="hero">
+        <div class="hero-content">
+            <div class="hero-icon">🎵</div>
+            <div class="hero-label">Personal Song</div>
+            <h1>A Song Written <span class="gradient-text-warm">Just For Them</span></h1>
+            <p>A song written for them. About them. Using their words, their stories, their feeling. Not a template — a unique piece of music that sounds like who they are.</p>
+            <div class="hero-quote">
+                "It sounds like Sunday mornings at my mom's house. I play it every day."
+            </div>
+            <a href="mailto:stories@cc3po.com?subject=Personal%20Song%20-%20I%20want%20to%20create%20a%20song" class="btn-primary">Create Their Song</a>
+        </div>
+    </section>
+
+    <section class="section">
+        <h2 class="section-title">What You <span class="gradient-text-warm">Get</span></h2>
+        <p class="section-sub">Not a playlist. Not a cover. A song that could only exist because of who they are.</p>
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="icon">🎶</div>
+                <h3>Original Song (3–5 min)</h3>
+                <p>A fully produced, original song composed from their stories. The lyrics come from what they told us. The melody matches the feeling. This song doesn't exist until they do.</p>
+            </div>
+            <div class="feature-card">
+                <div class="icon">📝</div>
+                <h3>Lyric Sheet</h3>
+                <p>A beautifully typeset lyric sheet with liner notes. Frame it. Put it on the wall. The words are theirs — we just gave them a melody.</p>
+            </div>
+            <div class="feature-card">
+                <div class="icon">🎬</div>
+                <h3>Behind-the-Scenes Story</h3>
+                <p>A written account of how the song was made — which stories inspired which lyrics, how the melody was chosen, what moments from their life shaped the bridge.</p>
+            </div>
+            <div class="feature-card">
+                <div class="icon">🎤</div>
+                <h3>Story Interview</h3>
+                <p>We sit down with you or your loved one and listen. The stories, the feelings, the moments that define them. That's the raw material for the song.</p>
+            </div>
+            <div class="feature-card">
+                <div class="icon">🎧</div>
+                <h3>Multiple Formats</h3>
+                <p>High-quality audio file, streaming link, and optional physical formats. Listen however you want — phone, vinyl, or the car on a Sunday drive.</p>
+            </div>
+            <div class="feature-card">
+                <div class="icon">🔒</div>
+                <h3>Their Song, Theirs Alone</h3>
+                <p>This song belongs to your family. We don't add it to a catalog or reuse the melody. It's as personal as a fingerprint.</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="section">
+        <h2 class="section-title">How It <span class="gradient-text-warm">Works</span></h2>
+        <p class="section-sub">From conversation to composition — we turn feelings into music.</p>
+        <div class="steps">
+            <div class="step">
+                <div class="step-number">1</div>
+                <div class="step-content">
+                    <h3>Tell Their Story</h3>
+                    <p>You tell us about someone you love — or they tell us directly. The stories, the sounds, the feelings. Sunday mornings. The kitchen. The way they laughed. We listen for the music that's already there.</p>
+                </div>
+            </div>
+            <div class="step">
+                <div class="step-number">2</div>
+                <div class="step-content">
+                    <h3>We Compose</h3>
+                    <p>Our AI composer takes those stories and creates original music. Lyrics drawn from real moments. Melodies that match real feelings. Genre and style that fits who they are — not who we think they should be.</p>
+                </div>
+            </div>
+            <div class="step">
+                <div class="step-number">3</div>
+                <div class="step-content">
+                    <h3>You Review</h3>
+                    <p>You hear a draft. You say "that's exactly how it feels" or "it needs more of her laugh." We revise until the song sounds like them — not like us.</p>
+                </div>
+            </div>
+            <div class="step">
+                <div class="step-number">4</div>
+                <div class="step-content">
+                    <h3>Final Song Delivered</h3>
+                    <p>A fully produced, mastered song in your hands. Plus the lyric sheet, the behind-the-scenes story, and the knowledge that this song exists because of who they are.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section">
+        <h2 class="section-title">Choose Your <span class="gradient-text-warm">Package</span></h2>
+        <p class="section-sub">One song or a whole album — every note written for them.</p>
+        <div class="pricing-grid">
+            <div class="pricing-card">
+                <div class="pricing-label">Single</div>
+                <h3>One Song</h3>
+                <div class="pricing-amount">$199</div>
+                <p class="pricing-desc">One original song, fully produced</p>
+                <ul class="pricing-features">
+                    <li>1 original song (3–5 min)</li>
+                    <li>High-quality audio file</li>
+                    <li>Lyric sheet</li>
+                    <li>Behind-the-scenes story</li>
+                    <li>1 revision round</li>
+                    <li>Delivered within 2 weeks</li>
+                </ul>
+                <a href="mailto:stories@cc3po.com?subject=Personal%20Song%20-%20Single%20Song%20%28199%29" class="btn-outline">Create Their Song</a>
+            </div>
+            <div class="pricing-card featured">
+                <div class="pricing-label">⭐ Most Popular</div>
+                <h3>Album Package</h3>
+                <div class="pricing-amount">$499</div>
+                <p class="pricing-desc">Three songs that tell their whole story</p>
+                <ul class="pricing-features">
+                    <li>3 original songs + interludes</li>
+                    <li>High-quality audio files</li>
+                    <li>Lyric sheets for all songs</li>
+                    <li>Behind-the-scenes stories</li>
+                    <li>2 revision rounds</li>
+                    <li>Digital album artwork</li>
+                    <li>Delivered within 4 weeks</li>
+                </ul>
+                <a href="mailto:stories@cc3po.com?subject=Personal%20Song%20-%20Album%20Package%20%28499%29" class="btn-primary">Create Their Album</a>
+            </div>
+            <div class="pricing-card">
+                <div class="pricing-label">Legacy</div>
+                <h3>Legacy Set</h3>
+                <div class="pricing-amount">$899</div>
+                <p class="pricing-desc">Five songs + vinyl pressing</p>
+                <ul class="pricing-features">
+                    <li>5 original songs + interludes</li>
+                    <li>High-quality audio files</li>
+                    <li>Custom vinyl pressing</li>
+                    <li>Printed lyric booklet</li>
+                    <li>Behind-the-scenes documentary</li>
+                    <li>3 revision rounds</li>
+                    <li>Dedicated composer collaboration</li>
+                    <li>Delivered within 6 weeks</li>
+                </ul>
+                <a href="mailto:stories@cc3po.com?subject=Personal%20Song%20-%20Legacy%20Set%20%28899%29" class="btn-outline">Create Their Legacy</a>
+            </div>
+        </div>
+    </section>
+
+    <section class="cta">
+        <h2>Ready to create <span class="gradient-text-warm">their song</span>?</h2>
+        <p>Music is how we remember people. Let's make something that sounds like them.</p>
+        <a href="mailto:stories@cc3po.com?subject=Personal%20Song%20-%20I%20want%20to%20create%20a%20song" class="btn-primary">Create Their Song</a>
+        <p style="margin-top: 24px; font-size: 14px; color: var(--text-muted);">Or email us at stories@cc3po.com — we'll set up a time to talk.</p>
+    </section>
+
+    <Footer />
+</body>
+</html>

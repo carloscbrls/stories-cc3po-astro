@@ -1,0 +1,238 @@
+---
+import BaseHead from '../components/BaseHead.astro';
+import Footer from '../components/Footer.astro';
+
+const SITE_TITLE = 'Sensescape — Step Back Into a Place You Love | CC3PO Stories';
+const SITE_DESCRIPTION = 'Recreate the feeling of being in a specific place from memory. The sounds, the music, the atmosphere — all from your description. Starting at $149.';
+const canonicalURL = new URL(Astro.url.pathname, 'https://stories.cc3po.com');
+const ogImage = 'https://cc3po.com/wp-content/uploads/2026/04/Color-Logo-New.png';
+---
+
+<!doctype html>
+<html lang="en">
+<head>
+    <BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
+    <link rel="canonical" href={canonicalURL} />
+    <meta property="og:title" content={SITE_TITLE} />
+    <meta property="og:description" content={SITE_DESCRIPTION} />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:url" content={canonicalURL} />
+    <meta property="og:type" content="website" />
+    <meta name="twitter:card" content="summary_large_image" />
+
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        :root {
+            --bg: #0a0a0b;
+            --surface: #111114;
+            --surface-light: #1a1a1f;
+            --text: #f0f0f0;
+            --text-muted: #a1a1aa;
+            --cyan: #00d4ff;
+            --warm: #f59e0b;
+            --warm-soft: rgba(245, 158, 11, 0.1);
+            --rose: #e94560;
+            --violet: #7c3aed;
+            --gradient: linear-gradient(135deg, #00d4ff, #7c3aed, #e94560);
+            --gradient-warm: linear-gradient(135deg, #f59e0b, #e94560, #7c3aed);
+        }
+        body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif; background: var(--bg); color: var(--text); line-height: 1.7; overflow-x: hidden; }
+        .gradient-text-warm { background: var(--gradient-warm); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+        .back-link { display: inline-flex; align-items: center; gap: 8px; color: var(--text-muted); text-decoration: none; font-size: 14px; padding: 16px 24px 0; transition: color 0.2s; }
+        .back-link:hover { color: var(--violet); }
+        .hero { min-height: 70vh; display: flex; align-items: center; justify-content: center; text-align: center; padding: 40px 24px; position: relative; }
+        .hero::before { content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: radial-gradient(ellipse at 50% 50%, rgba(124, 58, 237, 0.06) 0%, transparent 60%); pointer-events: none; }
+        .hero-content { max-width: 720px; position: relative; z-index: 1; }
+        .hero-icon { font-size: 64px; margin-bottom: 24px; }
+        .hero-label { display: inline-block; padding: 8px 20px; background: rgba(124, 58, 237, 0.1); border: 1px solid rgba(124, 58, 237, 0.3); border-radius: 100px; font-size: 14px; font-weight: 600; color: var(--violet); margin-bottom: 24px; letter-spacing: 0.05em; text-transform: uppercase; }
+        .hero h1 { font-size: clamp(32px, 5vw, 56px); font-weight: 800; line-height: 1.15; margin-bottom: 20px; }
+        .hero p { font-size: 19px; color: var(--text-muted); margin-bottom: 32px; line-height: 1.6; }
+        .hero-quote { font-size: 17px; font-style: italic; color: var(--text-muted); border-left: 3px solid var(--violet); padding-left: 20px; margin: 32px 0; text-align: left; }
+        .btn-primary { display: inline-block; padding: 18px 40px; background: var(--gradient-warm); color: white; font-size: 18px; font-weight: 700; text-decoration: none; border-radius: 16px; transition: transform 0.2s, box-shadow 0.2s; }
+        .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 12px 40px rgba(124, 58, 237, 0.3); }
+        .btn-outline { display: inline-block; padding: 14px 32px; background: transparent; color: var(--violet); font-size: 16px; font-weight: 600; text-decoration: none; border-radius: 12px; border: 1px solid rgba(124, 58, 237, 0.4); transition: all 0.2s; }
+        .btn-outline:hover { background: rgba(124, 58, 237, 0.1); }
+        .section { padding: 80px 24px; max-width: 1100px; margin: 0 auto; }
+        .section-title { font-size: clamp(26px, 4vw, 40px); font-weight: 800; text-align: center; margin-bottom: 16px; }
+        .section-sub { font-size: 18px; color: var(--text-muted); text-align: center; max-width: 640px; margin: 0 auto 60px; }
+        .features-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px; }
+        .feature-card { background: var(--surface); border: 1px solid rgba(255, 255, 255, 0.06); border-radius: 20px; padding: 32px; }
+        .feature-card .icon { font-size: 32px; margin-bottom: 12px; }
+        .feature-card h3 { font-size: 18px; font-weight: 700; margin-bottom: 8px; }
+        .feature-card p { color: var(--text-muted); font-size: 15px; line-height: 1.6; }
+        .steps { display: flex; flex-direction: column; gap: 48px; max-width: 640px; margin: 0 auto; }
+        .step { display: flex; gap: 24px; align-items: flex-start; }
+        .step-number { width: 48px; height: 48px; background: var(--gradient-warm); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 20px; font-weight: 800; color: white; flex-shrink: 0; }
+        .step-content h3 { font-size: 20px; font-weight: 700; margin-bottom: 8px; }
+        .step-content p { color: var(--text-muted); font-size: 16px; }
+        .pricing-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px; }
+        .pricing-card { background: var(--surface); border: 1px solid rgba(255, 255, 255, 0.06); border-radius: 20px; padding: 40px 32px; text-align: center; transition: transform 0.25s, border-color 0.25s; }
+        .pricing-card:hover { transform: translateY(-4px); border-color: rgba(124, 58, 237, 0.3); }
+        .pricing-card.featured { border-color: rgba(124, 58, 237, 0.4); background: linear-gradient(180deg, rgba(124, 58, 237, 0.05), var(--surface)); }
+        .pricing-label { font-size: 13px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; color: var(--violet); margin-bottom: 8px; }
+        .pricing-card h3 { font-size: 24px; font-weight: 800; margin-bottom: 8px; }
+        .pricing-amount { font-size: 48px; font-weight: 800; margin-bottom: 4px; }
+        .pricing-desc { color: var(--text-muted); font-size: 15px; margin-bottom: 24px; }
+        .pricing-features { list-style: none; text-align: left; margin-bottom: 32px; }
+        .pricing-features li { padding: 8px 0; border-bottom: 1px solid rgba(255, 255, 255, 0.04); font-size: 15px; color: var(--text-muted); }
+        .pricing-features li::before { content: '✓ '; color: var(--violet); font-weight: 700; }
+        .cta { text-align: center; padding: 80px 24px; }
+        .cta h2 { font-size: clamp(28px, 4vw, 42px); font-weight: 800; margin-bottom: 16px; }
+        .cta p { font-size: 18px; color: var(--text-muted); margin-bottom: 32px; max-width: 540px; margin-left: auto; margin-right: auto; }
+        @media (max-width: 768px) {
+            .hero { padding: 40px 20px; }
+            .section { padding: 60px 20px; }
+            .pricing-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <a href="/" class="back-link">← Back to all services</a>
+
+    <section class="hero">
+        <div class="hero-content">
+            <div class="hero-icon">🏠</div>
+            <div class="hero-label">Sensescape</div>
+            <h1>Step Back Into a Place <span class="gradient-text-warm">You Love</span></h1>
+            <p>You describe a place from your past — your grandmother's kitchen, your childhood street, your dad's workshop — and we recreate the feeling of being there. The sounds, the music, the atmosphere.</p>
+            <div class="hero-quote">
+                "I walked into my abuela's kitchen. She's been gone 20 years. It smells like chile."
+            </div>
+            <a href="mailto:stories@cc3po.com?subject=Sensescape%20-%20I%20want%20to%20recreate%20a%20place" class="btn-primary">Recreate Your Place</a>
+        </div>
+    </section>
+
+    <section class="section">
+        <h2 class="section-title">What You <span class="gradient-text-warm">Get</span></h2>
+        <p class="section-sub">Not a photo — a feeling. The sounds, the atmosphere, the way the light came through the window.</p>
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="icon">🎧</div>
+                <h3>10-Minute Immersive Audio</h3>
+                <p>A soundscape that puts you back in that place. The creak of the screen door. The sizzle in the pan. The music that was always playing. Close your eyes and you're there.</p>
+            </div>
+            <div class="feature-card">
+                <div class="icon">🎨</div>
+                <h3>Visual Artwork</h3>
+                <p>An AI-generated image of the place as you remember it. Not a photograph — an impression. The colors, the light, the feeling rendered in art.</p>
+            </div>
+            <div class="feature-card">
+                <div class="icon">📝</div>
+                <h3>Written Description</h3>
+                <p>A literary vignette of the place. Your words, shaped into prose that captures what made it special. Something you can read and be right back there.</p>
+            </div>
+            <div class="feature-card">
+                <div class="icon">🎙️</div>
+                <h3>Memory Interview</h3>
+                <p>We ask you to describe the place in detail — the sounds, smells, textures, light. Not just how it looked, but how it felt. That's what we recreate.</p>
+            </div>
+            <div class="feature-card">
+                <div class="icon">🔊</div>
+                <h3>Ambient Composition</h3>
+                <p>Original music composed to match the emotional tone of the place. Not background noise — a score that makes the memory feel alive.</p>
+            </div>
+            <div class="feature-card">
+                <div class="icon">🔒</div>
+                <h3>Private & Personal</h3>
+                <p>Your memories are yours. We don't share or reuse any sensescape. Every place is as unique as the person who remembers it.</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="section">
+        <h2 class="section-title">How It <span class="gradient-text-warm">Works</span></h2>
+        <p class="section-sub">From memory to immersion — we make the invisible visible again.</p>
+        <div class="steps">
+            <div class="step">
+                <div class="step-number">1</div>
+                <div class="step-content">
+                    <h3>Describe the Place</h3>
+                    <p>Tell us about a place that matters to you. The kitchen where you did homework. The porch where your grandfather smoked. The beach where you had your first kiss. We ask about the sounds, smells, light, and feelings.</p>
+                </div>
+            </div>
+            <div class="step">
+                <div class="step-number">2</div>
+                <div class="step-content">
+                    <h3>We Recreate It</h3>
+                    <p>Our AI takes your description and builds an immersive experience. Sound design from your memories. Music that matches the feeling. Artwork that captures the light. It's not a photo — it's a portal.</p>
+                </div>
+            </div>
+            <div class="step">
+                <div class="step-number">3</div>
+                <div class="step-content">
+                    <h3>You Experience It</h3>
+                    <p>Put on headphones. Close your eyes. You're back. We send you the audio, the artwork, and the written description. You tell us if it feels right.</p>
+                </div>
+            </div>
+            <div class="step">
+                <div class="step-number">4</div>
+                <div class="step-content">
+                    <h3>We Refine & Deliver</h3>
+                    <p>If the light was wrong, we fix it. If the music doesn't match, we change it. We revise until closing your eyes feels like being there. Then it's yours forever.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section">
+        <h2 class="section-title">Choose Your <span class="gradient-text-warm">Experience</span></h2>
+        <p class="section-sub">One place or a whole world — every sense brought back to life.</p>
+        <div class="pricing-grid">
+            <div class="pricing-card">
+                <div class="pricing-label">Single</div>
+                <h3>Single Scene</h3>
+                <div class="pricing-amount">$149</div>
+                <p class="pricing-desc">One place, fully recreated</p>
+                <ul class="pricing-features">
+                    <li>10-minute immersive audio</li>
+                    <li>AI-generated visual artwork</li>
+                    <li>Written vignette</li>
+                    <li>1 revision round</li>
+                    <li>Delivered within 1 week</li>
+                </ul>
+                <a href="mailto:stories@cc3po.com?subject=Sensescape%20-%20Single%20Scene%20%28149%29" class="btn-outline">Recreate Your Place</a>
+            </div>
+            <div class="pricing-card featured">
+                <div class="pricing-label">⭐ Most Popular</div>
+                <h3>Complete Experience</h3>
+                <div class="pricing-amount">$349</div>
+                <p class="pricing-desc">Full immersion with extended audio</p>
+                <ul class="pricing-features">
+                    <li>20-minute immersive audio</li>
+                    <li>3 visual artwork variations</li>
+                    <li>Detailed written description</li>
+                    <li>Ambient music composition</li>
+                    <li>2 revision rounds</li>
+                    <li>Delivered within 2 weeks</li>
+                </ul>
+                <a href="mailto:stories@cc3po.com?subject=Sensescape%20-%20Complete%20Experience%20%28349%29" class="btn-primary">Recreate Your Place</a>
+            </div>
+            <div class="pricing-card">
+                <div class="pricing-label">Family</div>
+                <h3>Family Collection</h3>
+                <div class="pricing-amount">$699</div>
+                <p class="pricing-desc">Three places, one shared experience</p>
+                <ul class="pricing-features">
+                    <li>3 complete sensescape experiences</li>
+                    <li>10-minute audio each</li>
+                    <li>Artwork for each scene</li>
+                    <li>Family memory booklet</li>
+                    <li>Shared timeline feature</li>
+                    <li>3 revision rounds</li>
+                    <li>Delivered within 4 weeks</li>
+                </ul>
+                <a href="mailto:stories@cc3po.com?subject=Sensescape%20-%20Family%20Collection%20%28699%29" class="btn-outline">Create Family Collection</a>
+            </div>
+        </div>
+    </section>
+
+    <section class="cta">
+        <h2>Ready to step back <span class="gradient-text-warm">into that place</span>?</h2>
+        <p>The kitchen. The porch. The backyard. The place that made you who you are. Let's go back together.</p>
+        <a href="mailto:stories@cc3po.com?subject=Sensescape%20-%20I%20want%20to%20recreate%20a%20place" class="btn-primary">Recreate Your Place</a>
+        <p style="margin-top: 24px; font-size: 14px; color: var(--text-muted);">Or email us at stories@cc3po.com — we'll set up a time to talk.</p>
+    </section>
+
+    <Footer />
+</body>
+</html>

@@ -1,0 +1,242 @@
+---
+import BaseHead from '../components/BaseHead.astro';
+import Footer from '../components/Footer.astro';
+
+const SITE_TITLE = 'Life Story Book — Preserve Their Story, In Their Voice | CC3PO Stories';
+const SITE_DESCRIPTION = 'Your loved one sits down with our village. We ask the questions no one gets around to asking. We weave their answers into a memoir — in their own words, in their own voice. Starting at $299.';
+const canonicalURL = new URL(Astro.url.pathname, 'https://stories.cc3po.com');
+const ogImage = 'https://cc3po.com/wp-content/uploads/2026/04/Color-Logo-New.png';
+---
+
+<!doctype html>
+<html lang="en">
+<head>
+    <BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
+    <link rel="canonical" href={canonicalURL} />
+    <meta property="og:title" content={SITE_TITLE} />
+    <meta property="og:description" content={SITE_DESCRIPTION} />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:url" content={canonicalURL} />
+    <meta property="og:type" content="website" />
+    <meta name="twitter:card" content="summary_large_image" />
+
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        :root {
+            --bg: #0a0a0b;
+            --surface: #111114;
+            --surface-light: #1a1a1f;
+            --text: #f0f0f0;
+            --text-muted: #a1a1aa;
+            --cyan: #00d4ff;
+            --warm: #f59e0b;
+            --warm-soft: rgba(245, 158, 11, 0.1);
+            --rose: #e94560;
+            --violet: #7c3aed;
+            --gradient: linear-gradient(135deg, #00d4ff, #7c3aed, #e94560);
+            --gradient-warm: linear-gradient(135deg, #f59e0b, #e94560, #7c3aed);
+        }
+        body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif; background: var(--bg); color: var(--text); line-height: 1.7; overflow-x: hidden; }
+        .gradient-text { background: var(--gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+        .gradient-text-warm { background: var(--gradient-warm); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+        .back-link { display: inline-flex; align-items: center; gap: 8px; color: var(--text-muted); text-decoration: none; font-size: 14px; padding: 16px 24px 0; transition: color 0.2s; }
+        .back-link:hover { color: var(--warm); }
+        .hero { min-height: 70vh; display: flex; align-items: center; justify-content: center; text-align: center; padding: 40px 24px; position: relative; }
+        .hero::before { content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: radial-gradient(ellipse at 50% 50%, rgba(245, 158, 11, 0.06) 0%, transparent 60%); pointer-events: none; }
+        .hero-content { max-width: 720px; position: relative; z-index: 1; }
+        .hero-icon { font-size: 64px; margin-bottom: 24px; }
+        .hero-label { display: inline-block; padding: 8px 20px; background: var(--warm-soft); border: 1px solid rgba(245, 158, 11, 0.3); border-radius: 100px; font-size: 14px; font-weight: 600; color: var(--warm); margin-bottom: 24px; letter-spacing: 0.05em; text-transform: uppercase; }
+        .hero h1 { font-size: clamp(32px, 5vw, 56px); font-weight: 800; line-height: 1.15; margin-bottom: 20px; }
+        .hero p { font-size: 19px; color: var(--text-muted); margin-bottom: 32px; line-height: 1.6; }
+        .hero-quote { font-size: 17px; font-style: italic; color: var(--text-muted); border-left: 3px solid var(--warm); padding-left: 20px; margin: 32px 0; text-align: left; }
+        .btn-primary { display: inline-block; padding: 18px 40px; background: var(--gradient-warm); color: white; font-size: 18px; font-weight: 700; text-decoration: none; border-radius: 16px; transition: transform 0.2s, box-shadow 0.2s; }
+        .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 12px 40px rgba(245, 158, 11, 0.3); }
+        .section { padding: 80px 24px; max-width: 1100px; margin: 0 auto; }
+        .section-title { font-size: clamp(26px, 4vw, 40px); font-weight: 800; text-align: center; margin-bottom: 16px; }
+        .section-sub { font-size: 18px; color: var(--text-muted); text-align: center; max-width: 640px; margin: 0 auto 60px; }
+        .features-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px; }
+        .feature-card { background: var(--surface); border: 1px solid rgba(255, 255, 255, 0.06); border-radius: 20px; padding: 32px; }
+        .feature-card .icon { font-size: 32px; margin-bottom: 12px; }
+        .feature-card h3 { font-size: 18px; font-weight: 700; margin-bottom: 8px; }
+        .feature-card p { color: var(--text-muted); font-size: 15px; line-height: 1.6; }
+        .steps { display: flex; flex-direction: column; gap: 48px; max-width: 640px; margin: 0 auto; }
+        .step { display: flex; gap: 24px; align-items: flex-start; }
+        .step-number { width: 48px; height: 48px; background: var(--gradient-warm); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 20px; font-weight: 800; color: white; flex-shrink: 0; }
+        .step-content h3 { font-size: 20px; font-weight: 700; margin-bottom: 8px; }
+        .step-content p { color: var(--text-muted); font-size: 16px; }
+        .pricing-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px; }
+        .pricing-card { background: var(--surface); border: 1px solid rgba(255, 255, 255, 0.06); border-radius: 20px; padding: 40px 32px; text-align: center; transition: transform 0.25s, border-color 0.25s; }
+        .pricing-card:hover { transform: translateY(-4px); border-color: rgba(245, 158, 11, 0.3); }
+        .pricing-card.featured { border-color: rgba(245, 158, 11, 0.4); background: linear-gradient(180deg, rgba(245, 158, 11, 0.05), var(--surface)); }
+        .pricing-label { font-size: 13px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; color: var(--warm); margin-bottom: 8px; }
+        .pricing-card h3 { font-size: 24px; font-weight: 800; margin-bottom: 8px; }
+        .pricing-amount { font-size: 48px; font-weight: 800; margin-bottom: 4px; }
+        .pricing-amount span { font-size: 16px; font-weight: 400; color: var(--text-muted); }
+        .pricing-desc { color: var(--text-muted); font-size: 15px; margin-bottom: 24px; }
+        .pricing-features { list-style: none; text-align: left; margin-bottom: 32px; }
+        .pricing-features li { padding: 8px 0; border-bottom: 1px solid rgba(255, 255, 255, 0.04); font-size: 15px; color: var(--text-muted); }
+        .pricing-features li::before { content: '✓ '; color: var(--warm); font-weight: 700; }
+        .btn-outline { display: inline-block; padding: 14px 32px; background: transparent; color: var(--warm); font-size: 16px; font-weight: 600; text-decoration: none; border-radius: 12px; border: 1px solid rgba(245, 158, 11, 0.4); transition: all 0.2s; }
+        .btn-outline:hover { background: rgba(245, 158, 11, 0.1); }
+        .cta { text-align: center; padding: 80px 24px; }
+        .cta h2 { font-size: clamp(28px, 4vw, 42px); font-weight: 800; margin-bottom: 16px; }
+        .cta p { font-size: 18px; color: var(--text-muted); margin-bottom: 32px; max-width: 540px; margin-left: auto; margin-right: auto; }
+        @media (max-width: 768px) {
+            .hero { padding: 40px 20px; }
+            .section { padding: 60px 20px; }
+            .pricing-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <a href="/" class="back-link">← Back to all services</a>
+
+    <section class="hero">
+        <div class="hero-content">
+            <div class="hero-icon">📖</div>
+            <div class="hero-label">Life Story Book</div>
+            <h1>Preserve Their Story, <span class="gradient-text-warm">In Their Voice</span></h1>
+            <p>Your loved one sits down with our village. We ask the questions no one gets around to asking. We weave their answers into a memoir — in their own words, in their own voice. A book their great-grandchildren will hold.</p>
+            <div class="hero-quote">
+                "My grandmother told us about crossing the border in 1983. Now her great-grandchildren will hear it in her voice."
+            </div>
+            <a href="mailto:stories@cc3po.com?subject=Life%20Story%20Book%20-%20I%20want%20to%20preserve%20a%20story" class="btn-primary">Start Your Story</a>
+        </div>
+    </section>
+
+    <section class="section">
+        <h2 class="section-title">What You <span class="gradient-text-warm">Get</span></h2>
+        <p class="section-sub">More than a book — a living record of a life, preserved forever.</p>
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="icon">📕</div>
+                <h3>Hardcover Memoir</h3>
+                <p>A beautifully bound book with their stories, in their voice. Not a biography written about them — a memoir written by them, with our help asking the questions that matter.</p>
+            </div>
+            <div class="feature-card">
+                <div class="icon">🎧</div>
+                <h3>Digital Audiobook</h3>
+                <p>Hear their voice telling the stories again. We produce an audiobook from the original conversations so every laugh, pause, and emphasis is preserved exactly as it happened.</p>
+            </div>
+            <div class="feature-card">
+                <div class="icon">🎁</div>
+                <h3>Family Keepsake Copies</h3>
+                <p>Additional copies for every branch of the family. Because these stories belong to everyone who loves them, and everyone deserves to hold them.</p>
+            </div>
+            <div class="feature-card">
+                <div class="icon">✍️</div>
+                <h3>Personal Interview</h3>
+                <p>We don't send a questionnaire. Our village sits down with your loved one — by phone, video, or in person — and has a real conversation. The kind you wish you'd had time for.</p>
+            </div>
+            <div class="feature-card">
+                <div class="icon">📸</div>
+                <h3>Photo Integration</h3>
+                <p>Add family photos throughout the book. Wedding photos, childhood snapshots, the kitchen that smelled like home. Their words alongside their images.</p>
+            </div>
+            <div class="feature-card">
+                <div class="icon">🔒</div>
+                <h3>Private & Yours</h3>
+                <p>Their stories belong to your family. We don't share, sell, or train on anything they tell us. Every word stays private — guaranteed.</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="section">
+        <h2 class="section-title">How It <span class="gradient-text-warm">Works</span></h2>
+        <p class="section-sub">From conversation to keepsake — we handle the hard parts.</p>
+        <div class="steps">
+            <div class="step">
+                <div class="step-number">1</div>
+                <div class="step-content">
+                    <h3>You Talk</h3>
+                    <p>Your loved one sits down with our village. We guide the conversation — not with a script, but with genuine curiosity. We ask about the moments that defined them, the people who shaped them, the stories they've been waiting to tell.</p>
+                </div>
+            </div>
+            <div class="step">
+                <div class="step-number">2</div>
+                <div class="step-content">
+                    <h3>We Listen</h3>
+                    <p>Really listen. We capture not just the words but the feeling behind them — the laugh when they talk about their childhood, the pause before they talk about loss. We hear what matters.</p>
+                </div>
+            </div>
+            <div class="step">
+                <div class="step-number">3</div>
+                <div class="step-content">
+                    <h3>We Write</h3>
+                    <p>We weave their stories into a beautiful memoir. In their voice, their words, their cadence. Not polished into something generic — preserved as something deeply personal.</p>
+                </div>
+            </div>
+            <div class="step">
+                <div class="step-number">4</div>
+                <div class="step-content">
+                    <h3>You Review & We Create</h3>
+                    <p>You see a draft. You say "that's right" or "that's not how she'd say it." We revise until it's perfect. Then we produce the book, the audiobook, and every keepsake copy. Delivered to your door.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section">
+        <h2 class="section-title">Choose Your <span class="gradient-text-warm">Package</span></h2>
+        <p class="section-sub">Every package preserves their story forever. The difference is how many people get to hold it.</p>
+        <div class="pricing-grid">
+            <div class="pricing-card">
+                <div class="pricing-label">Essential</div>
+                <h3>Digital Keepsake</h3>
+                <div class="pricing-amount">$299</div>
+                <p class="pricing-desc">Their story, preserved digitally</p>
+                <ul class="pricing-features">
+                    <li>Digital memoir (PDF & ePub)</li>
+                    <li>Digital audiobook</li>
+                    <li>2-hour personal interview</li>
+                    <li>Photo integration (up to 20)</li>
+                    <li>Digital delivery within 4 weeks</li>
+                </ul>
+                <a href="mailto:stories@cc3po.com?subject=Life%20Story%20Book%20-%20Essential%20Package%20%28299%29" class="btn-outline">Start Essential</a>
+            </div>
+            <div class="pricing-card featured">
+                <div class="pricing-label">⭐ Most Popular</div>
+                <h3>Complete</h3>
+                <div class="pricing-amount">$599</div>
+                <p class="pricing-desc">Hardcover + digital — the full experience</p>
+                <ul class="pricing-features">
+                    <li>Everything in Essential</li>
+                    <li>Premium hardcover book</li>
+                    <li>Digital audiobook</li>
+                    <li>3-hour personal interview</li>
+                    <li>Photo integration (up to 40)</li>
+                    <li>1 revision round included</li>
+                    <li>Physical delivery within 6 weeks</li>
+                </ul>
+                <a href="mailto:stories@cc3po.com?subject=Life%20Story%20Book%20-%20Complete%20Package%20%28599%29" class="btn-primary">Start Complete</a>
+            </div>
+            <div class="pricing-card">
+                <div class="pricing-label">Legacy</div>
+                <h3>Family Heritage</h3>
+                <div class="pricing-amount">$999</div>
+                <p class="pricing-desc">For the whole family — now and forever</p>
+                <ul class="pricing-features">
+                    <li>Everything in Complete</li>
+                    <li>5 keepsake hardcover copies</li>
+                    <li>Full audiobook production</li>
+                    <li>5-hour deep interview</li>
+                    <li>Unlimited photo integration</li>
+                    <li>2 revision rounds included</li>
+                    <li>Family tree chapter</li>
+                    <li>Dedication page</li>
+                </ul>
+                <a href="mailto:stories@cc3po.com?subject=Life%20Story%20Book%20-%20Legacy%20Package%20%28999%29" class="btn-outline">Start Legacy</a>
+            </div>
+        </div>
+    </section>
+
+    <section class="cta">
+        <h2>Ready to preserve <span class="gradient-text-warm">their story</span>?</h2>
+        <p>Every day that passes is a story that might not get told. Start now — before the memories fade.</p>
+        <a href="mailto:stories@cc3po.com?subject=Life%20Story%20Book%20-%20I%20want%20to%20preserve%20a%20story" class="btn-primary">Start Your Story</a>
+        <p style="margin-top: 24px; font-size: 14px; color: var(--text-muted);">Or email us at stories@cc3po.com — we'll set up a time to talk.</p>
+    </section>
+
+    <Footer />
+</body>
+</html>

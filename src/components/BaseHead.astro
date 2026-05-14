@@ -1,0 +1,105 @@
+---
+interface Props {
+	title: string;
+	description: string;
+}
+
+const canonicalURL = new URL(Astro.url.pathname, Astro.site);
+const { title, description } = Astro.props;
+---
+
+<!-- Global Metadata -->
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<link rel="icon" type="image/png" href="/favicon.png" />
+<link rel="sitemap" href="/sitemap-index.xml" />
+<meta name="generator" content={Astro.generator} />
+<meta name="robots" content="index, follow" />
+
+<!-- Canonical URL -->
+<link rel="canonical" href={canonicalURL} />
+
+<!-- Primary Meta Tags -->
+<title>{title}</title>
+<meta name="title" content={title} />
+<meta name="description" content={description} />
+
+<!-- Open Graph / Facebook -->
+<meta property="og:type" content="website" />
+<meta property="og:url" content={Astro.url} />
+<meta property="og:title" content={title} />
+<meta property="og:description" content={description} />
+
+<!-- Twitter -->
+<meta property="twitter:card" content="summary_large_image" />
+<meta property="twitter:url" content={Astro.url} />
+<meta property="twitter:title" content={title} />
+<meta property="twitter:description" content={description} />
+
+<!-- Analytics (Privacy-friendly, self-hosted Plausible) -->
+<script async src="https://analytics.cc3po.com/js/pa-L75wLLqFAXpJaokSPBmj6.js"></script>
+<script>
+  window.plausible=window.plausible||function(){(plausible.q=plausible.q||[]).push(arguments)},plausible.init=plausible.init||function(i){plausible.o=i||{}};
+  plausible.init()
+</script>
+
+<!-- Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+
+<!-- Schema.org Structured Data -->
+<script type="application/ld+json" set:html={JSON.stringify({
+  "@context": "https://schema.org",
+  "@type": "ProfessionalService",
+  "name": "CC3PO",
+  "alternateName": "CC3PO IT Consulting",
+  "url": "https://audit.cc3po.com",
+  "logo": "https://audit.cc3po.com/favicon.png",
+  "description": "Website compliance audits, ADA/WCAG scanning, and Living Compliance Score for small businesses.",
+  "telephone": "+1-209-423-6633",
+  "email": "info@cc3po.com",
+  "priceRange": "$$",
+  "address": {
+    "@type": "PostalAddress",
+    "addressLocality": "Stockton",
+    "addressRegion": "CA",
+    "addressCountry": "US"
+  },
+  "areaServed": {
+    "@type": "GeoCircle",
+    "geoMidpoint": { "@type": "GeoCoordinates", "latitude": 37.9577, "longitude": -121.2908 },
+    "geoRadius": "80467"
+  },
+  "sameAs": [
+    "https://linkedin.com/company/cc3potechnology",
+    "https://x.com/IiiCabrales",
+    "https://instagram.com/carloscbrls",
+    "https://www.facebook.com/profile.php?id=61569885474429",
+    "https://www.tiktok.com/@carlos.a.k.ac3",
+    "https://www.youtube.com/@carloscbrls"
+  ]
+})} />
+
+<!-- Organization Schema -->
+<script type="application/ld+json" set:html={JSON.stringify({
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "name": "CC3PO",
+  "url": "https://audit.cc3po.com",
+  "logo": "https://audit.cc3po.com/favicon.png",
+  "contactPoint": {
+    "@type": "ContactPoint",
+    "telephone": "+1-209-423-6633",
+    "contactType": "customer service",
+    "availableLanguage": ["English","Spanish"]
+  },
+  "sameAs": [
+    "https://linkedin.com/company/cc3potechnology",
+    "https://x.com/IiiCabrales",
+    "https://instagram.com/carloscbrls",
+    "https://www.facebook.com/profile.php?id=61569885474429",
+    "https://www.tiktok.com/@carlos.a.k.ac3",
+    "https://www.youtube.com/@carloscbrls"
+  ]
+})} />

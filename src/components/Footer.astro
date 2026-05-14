@@ -1,0 +1,87 @@
+---
+const currentYear = new Date().getFullYear();
+
+const socialLinks = [
+  { name: 'LinkedIn', url: 'https://linkedin.com/company/cc3potechnology', icon: 'linkedin' },
+  { name: 'X / Twitter', url: 'https://x.com/IiiCabrales', icon: 'twitter' },
+  { name: 'Instagram', url: 'https://instagram.com/carloscbrls', icon: 'instagram' },
+  { name: 'Facebook', url: 'https://www.facebook.com/profile.php?id=61569885474429', icon: 'facebook' },
+  { name: 'TikTok', url: 'https://www.tiktok.com/@carlos.a.k.ac3', icon: 'tiktok' },
+  { name: 'YouTube', url: 'https://www.youtube.com/@carloscbrls', icon: 'youtube' },
+];
+
+function getSvg(icon: string) {
+  switch(icon) {
+    case 'linkedin': return '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>';
+    case 'twitter': return '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 4l11.733 16h4.267l-11.733-16z"/><path d="M4 20l6.768-6.768m2.46-2.46L20 4"/></svg>';
+    case 'instagram': return '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>';
+    case 'facebook': return '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>';
+    default: return '';
+  }
+}
+---
+
+<style>
+  footer {
+    background: rgba(255, 255, 255, 0.02);
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+    padding: 44px 24px;
+    text-align: center;
+    color: #a1a1aa;
+    font-size: 13px;
+  }
+  footer a {
+    color: #e94560;
+    text-decoration: none;
+  }
+  footer a:hover {
+    text-decoration: underline;
+  }
+  .social-icons {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    margin: 16px 0;
+  }
+  .social-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 38px;
+    height: 38px;
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    color: #a1a1aa;
+    text-decoration: none;
+    transition: all 0.2s;
+  }
+  .social-icon:hover {
+    background: rgba(107, 53, 255, 0.1);
+    border-color: rgba(107, 53, 255, 0.3);
+    color: #fff;
+    transform: translateY(-2px);
+  }
+</style>
+
+<footer>
+  <p class="footer-certifications" style="font-size:12px;color:#a1a1aa;margin-bottom:4px;">CA Certified Small Business — SB #2052063 · Latino-Owned Business · Se habla español</p>
+  <p>© {currentYear} CC3PO LLC. All rights reserved. AI Agents That Work Within Your Rules.</p>
+  <p style="margin-top: 4px; font-size: 12px; color: #71717a;">16299 Adobe Way, Lathrop, CA 95330</p>
+  <p style="margin-top: 12px; font-size: 12px;">
+    <a href="/privacy">Privacy Policy</a> · <a href="/terms">Terms of Service</a> · <a href="/disclaimer">Disclaimer</a>
+  </p>
+  <div style="margin-top: 16px; font-size: 12px; display: flex; gap: 12px; justify-content: center; flex-wrap: wrap;">
+    <a href="https://cc3po.com" style="color: #a1a1aa;">Main Site</a> ·
+    <a href="https://offers.cc3po.com" style="color: #a1a1aa;">Services & Pricing</a> ·
+    <a href="https://insights.cc3po.com" style="color: #a1a1aa;">Blog & Insights</a> ·
+    <a href="https://pricing.cc3po.com" style="color: #a1a1aa;">Pricing</a> ·
+    <a href="https://docs.cc3po.com" style="color: #a1a1aa;">Docs</a> ·
+    <a href="https://status.cc3po.com" style="color: #a1a1aa;">Status</a>
+  </div>
+  <div class="social-icons">
+    {socialLinks.map(link => (
+      <a href={link.url} target="_blank" rel="noopener noreferrer" class="social-icon" aria-label={link.name} set:html={getSvg(link.icon)} />
+    ))}
+  </div>
+</footer>

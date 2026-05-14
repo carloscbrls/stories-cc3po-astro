@@ -1,0 +1,206 @@
+import BaseHead from '../components/BaseHead.astro';
+import Footer from '../components/Footer.astro';
+
+const SITE_TITLE = 'CC3PO Stories — Your Story, Preserved Forever';
+const SITE_DESCRIPTION = 'Sit down with our AI village. Tell us about the people, places, and moments that shaped you. We listen. We remember. We create something beautiful that lasts.';
+const canonicalURL = new URL(Astro.url.pathname, 'https://stories.cc3po.com');
+const ogImage = 'https://cc3po.com/wp-content/uploads/2026/04/Color-Logo-New.png';
+---
+
+<!doctype html>
+<html lang="en">
+<head>
+    <BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
+    <link rel="canonical" href={canonicalURL} />
+    <meta property="og:title" content={SITE_TITLE} />
+    <meta property="og:description" content={SITE_DESCRIPTION} />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:url" content={canonicalURL} />
+    <meta property="og:type" content="website" />
+    <meta name="twitter:card" content="summary_large_image" />
+
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        :root {
+            --bg: #0a0a0b;
+            --surface: #111114;
+            --surface-light: #1a1a1f;
+            --text: #f0f0f0;
+            --text-muted: #a1a1aa;
+            --cyan: #00d4ff;
+            --warm: #f59e0b;
+            --warm-soft: rgba(245, 158, 11, 0.1);
+            --rose: #e94560;
+            --violet: #7c3aed;
+            --gradient: linear-gradient(135deg, #00d4ff, #7c3aed, #e94560);
+            --gradient-warm: linear-gradient(135deg, #f59e0b, #e94560, #7c3aed);
+        }
+        body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif; background: var(--bg); color: var(--text); line-height: 1.7; overflow-x: hidden; }
+        .gradient-text { background: var(--gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+        .gradient-text-warm { background: var(--gradient-warm); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+        .hero { min-height: 100vh; display: flex; align-items: center; justify-content: center; text-align: center; padding: 40px 24px; position: relative; }
+        .hero::before { content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: radial-gradient(ellipse at 50% 50%, rgba(245, 158, 11, 0.06) 0%, transparent 60%), radial-gradient(ellipse at 80% 20%, rgba(124, 58, 237, 0.05) 0%, transparent 50%); pointer-events: none; }
+        .hero-content { max-width: 720px; position: relative; z-index: 1; }
+        .hero-label { display: inline-block; padding: 8px 20px; background: var(--warm-soft); border: 1px solid rgba(245, 158, 11, 0.3); border-radius: 100px; font-size: 14px; font-weight: 600; color: var(--warm); margin-bottom: 32px; letter-spacing: 0.05em; text-transform: uppercase; }
+        .hero h1 { font-size: clamp(36px, 6vw, 64px); font-weight: 800; line-height: 1.1; margin-bottom: 24px; }
+        .hero p { font-size: 20px; color: var(--text-muted); margin-bottom: 40px; line-height: 1.6; }
+        .hero-quote { font-size: 18px; font-style: italic; color: var(--text-muted); border-left: 3px solid var(--warm); padding-left: 20px; margin: 40px 0; text-align: left; }
+        .btn-primary { display: inline-block; padding: 18px 40px; background: var(--gradient-warm); color: white; font-size: 18px; font-weight: 700; text-decoration: none; border-radius: 16px; transition: transform 0.2s, box-shadow 0.2s; }
+        .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 12px 40px rgba(245, 158, 11, 0.3); }
+        .btn-secondary { display: inline-block; padding: 16px 32px; background: var(--surface-light); color: var(--text); font-size: 16px; font-weight: 600; text-decoration: none; border-radius: 12px; border: 1px solid rgba(255, 255, 255, 0.1); transition: all 0.2s; margin-left: 16px; }
+        .btn-secondary:hover { background: rgba(255, 255, 255, 0.1); border-color: rgba(255, 255, 255, 0.2); }
+        .section { padding: 100px 24px; max-width: 1100px; margin: 0 auto; }
+        .section-title { font-size: clamp(28px, 4vw, 42px); font-weight: 800; text-align: center; margin-bottom: 16px; }
+        .section-sub { font-size: 18px; color: var(--text-muted); text-align: center; max-width: 640px; margin: 0 auto 60px; }
+        .create-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px; }
+        .create-card { background: var(--surface); border: 1px solid rgba(255, 255, 255, 0.06); border-radius: 20px; padding: 32px; transition: transform 0.25s, border-color 0.25s; }
+        .create-card:hover { transform: translateY(-4px); border-color: rgba(245, 158, 11, 0.3); }
+        .create-icon { font-size: 40px; margin-bottom: 16px; }
+        .create-card h3 { font-size: 20px; font-weight: 700; margin-bottom: 8px; }
+        .create-card p { color: var(--text-muted); font-size: 15px; line-height: 1.6; }
+        .create-card .example { margin-top: 16px; padding: 12px; background: rgba(245, 158, 11, 0.05); border-radius: 10px; font-size: 14px; color: var(--warm); font-style: italic; }
+        .steps { display: flex; flex-direction: column; gap: 48px; max-width: 640px; margin: 0 auto; }
+        .step { display: flex; gap: 24px; align-items: flex-start; }
+        .step-number { width: 48px; height: 48px; background: var(--gradient-warm); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 20px; font-weight: 800; color: white; flex-shrink: 0; }
+        .step-content h3 { font-size: 20px; font-weight: 700; margin-bottom: 8px; }
+        .step-content p { color: var(--text-muted); font-size: 16px; }
+        .promise { background: var(--surface); border: 1px solid rgba(245, 158, 11, 0.2); border-radius: 24px; padding: 48px; text-align: center; max-width: 700px; margin: 0 auto; }
+        .promise h2 { font-size: 28px; font-weight: 800; margin-bottom: 16px; }
+        .promise p { color: var(--text-muted); font-size: 17px; line-height: 1.7; margin-bottom: 24px; }
+        .promise-values { display: flex; flex-wrap: wrap; gap: 12px; justify-content: center; margin-top: 24px; }
+        .promise-value { padding: 8px 16px; background: rgba(245, 158, 11, 0.08); border-radius: 100px; font-size: 14px; color: var(--warm); font-weight: 600; }
+        .cta { text-align: center; padding: 100px 24px; }
+        .cta h2 { font-size: clamp(28px, 4vw, 42px); font-weight: 800; margin-bottom: 16px; }
+        .cta p { font-size: 18px; color: var(--text-muted); margin-bottom: 40px; max-width: 540px; margin-left: auto; margin-right: auto; }
+        .skip-link { position: absolute; top: -100px; left: 0; background: #f59e0b; color: #000; padding: 12px 24px; z-index: 10000; font-size: 16px; font-weight: 600; text-decoration: none; border-radius: 0 0 8px 0; }
+        .skip-link:focus { top: 0; }
+        @media (max-width: 768px) {
+            .hero { padding: 60px 20px; }
+            .hero h1 { font-size: 32px; }
+            .hero p { font-size: 17px; }
+            .section { padding: 60px 20px; }
+            .btn-secondary { margin-left: 0; margin-top: 12px; display: block; text-align: center; }
+        }
+    </style>
+</head>
+<body>
+    <a href="#main-content" class="skip-link">Skip to main content</a>
+
+    <section class="hero" id="main-content">
+        <div class="hero-content">
+            <div class="hero-label">Something new from CC3PO</div>
+            <h1>Your story deserves to be <span class="gradient-text-warm">remembered</span></h1>
+            <p>Sit down with our village. Tell us about the people, places, and moments that shaped you. We listen. We remember. We create something beautiful that lasts — long after memories start to fade.</p>
+            <div class="hero-quote">
+                "I thought I'd lost my dad's laugh forever. Then I heard it again, telling the story of how he met my mom."
+            </div>
+            <div>
+                <a href="mailto:stories@cc3po.com?subject=I%20want%20to%20tell%20my%20story" class="btn-primary">Tell Your Story</a>
+                <a href="#what-we-create" class="btn-secondary">See what we create</a>
+            </div>
+        </div>
+    </section>
+
+    <section class="section" id="what-we-create">
+        <h2 class="section-title">What We <span class="gradient-text-warm">Create</span> From Your Story</h2>
+        <p class="section-sub">You talk. We listen. Then we create something you didn't know was possible.</p>
+        <div class="create-grid">
+            <div class="create-card">
+                <div class="create-icon">📖</div>
+                <h3>Life Story Book</h3>
+                <p>Your loved one sits down with our village. We ask the questions no one gets around to asking. We weave their answers into a memoir — in their own words, in their own voice.</p>
+                <div class="example">"My grandmother told us about crossing the border in 1983. Now her great-grandchildren will hear it in her voice."</div>
+            </div>
+            <div class="create-card">
+                <div class="create-icon">🎵</div>
+                <h3>Personal Song</h3>
+                <p>A song written for them. About them. Using their words, their stories, their feeling. Not a template — a unique piece of music that sounds like who they are.</p>
+                <div class="example">"It sounds like Sunday mornings at my mom's house. I play it every day."</div>
+            </div>
+            <div class="create-card">
+                <div class="create-icon">🏠</div>
+                <h3>Sensescape</h3>
+                <p>You describe a place from your past — your grandmother's kitchen, your childhood street, your dad's workshop — and we recreate the feeling of being there. The sounds, the music, the atmosphere.</p>
+                <div class="example">"I walked into my abuela's kitchen. She's been gone 20 years. It smells like chile."</div>
+            </div>
+            <div class="create-card">
+                <div class="create-icon">✉️</div>
+                <h3>Time Capsule Letter</h3>
+                <p>Write a letter to someone for a future date. To your daughter on her wedding day. To your spouse on your 50th anniversary. To yourself at 40, written when you're 30. We hold it and deliver it when the time comes.</p>
+                <div class="example">"My dad wrote me a letter when I was 5. I got it on my 21st birthday. He'd been gone 10 years."</div>
+            </div>
+            <div class="create-card">
+                <div class="create-icon">🕯️</div>
+                <h3>Living Memorial</h3>
+                <p>Not a static obituary. A living page that plays their favorite music, tells their story in their voice, and lets family add memories over time. It grows. It breathes. It doesn't fade.</p>
+                <div class="example">"My mom's memorial page has her laugh on it. I visit it every morning."</div>
+            </div>
+            <div class="create-card">
+                <div class="create-icon">💫</div>
+                <h3>Dream Journal</h3>
+                <p>Tell us your dream when you wake up. We ask what it means to you. We draw the scene. We compose music that matches the feeling. Over time, we map your inner world.</p>
+                <div class="example">"The AI painted the house I keep dreaming about. I didn't even know it was important until I saw it."</div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section">
+        <h2 class="section-title">How It <span class="gradient-text-warm">Works</span></h2>
+        <p class="section-sub">You talk. We listen. We create. That's it.</p>
+        <div class="steps">
+            <div class="step">
+                <div class="step-number">1</div>
+                <div class="step-content">
+                    <h3>You Talk</h3>
+                    <p>Sit down with our village — by voice, text, or video. Tell us about someone you love, a place you miss, a moment you want to preserve. Our AI asks the questions a good friend would ask.</p>
+                </div>
+            </div>
+            <div class="step">
+                <div class="step-number">2</div>
+                <div class="step-content">
+                    <h3>We Listen</h3>
+                    <p>Really listen. Not just recording words — understanding the feeling behind them. The laugh in someone's voice when they talk about their childhood. The pause before they talk about loss. We hear what matters.</p>
+                </div>
+            </div>
+            <div class="step">
+                <div class="step-number">3</div>
+                <div class="step-content">
+                    <h3>We Create</h3>
+                    <p>From your words, we create something beautiful. A song. A memoir. A sensescape. A letter. Something you can hold, share, and revisit. Something that lasts.</p>
+                </div>
+            </div>
+            <div class="step">
+                <div class="step-number">4</div>
+                <div class="step-content">
+                    <h3>We Remember</h3>
+                    <p>Your story stays with us. Next time you come back, we remember what you told us. We build on it. Your village grows with you — learning your family, your stories, your world.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section">
+        <div class="promise">
+            <h2>Our <span class="gradient-text-warm">Promise</span></h2>
+            <p>We believe everyone's story deserves to be heard and preserved. Your stories belong to you. We don't sell them, share them, or use them to train models for anyone else.</p>
+            <p>Every creation is yours. Your words. Your memories. Your family's legacy.</p>
+            <div class="promise-values">
+                <span class="promise-value">🔒 Private</span>
+                <span class="promise-value">🛡️ Yours forever</span>
+                <span class="promise-value">🤝 Respectful</span>
+                <span class="promise-value">🌍 Culturally aware</span>
+                <span class="promise-value">💛 Human first</span>
+            </div>
+        </div>
+    </section>
+
+    <section class="cta" id="start">
+        <h2>Ready to be <span class="gradient-text-warm">heard</span>?</h2>
+        <p>Your story matters. The people you love matter. The places that shaped you matter. Let's make sure they're remembered.</p>
+        <a href="mailto:stories@cc3po.com?subject=I%20want%20to%20tell%20my%20story" class="btn-primary">Start Your Story</a>
+        <p style="margin-top: 24px; font-size: 14px; color: var(--text-muted);">Or email us at stories@cc3po.com — we'll set up a time to talk.</p>
+    </section>
+
+    <Footer />
+</body>
+</html>

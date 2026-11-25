@@ -79,6 +79,12 @@ const ogImage = 'https://cc3po.com/wp-content/uploads/2026/04/Color-Logo-New.png
         .pricing-features { list-style: none; text-align: left; margin-bottom: 32px; }
         .pricing-features li { padding: 8px 0; border-bottom: 1px solid rgba(255, 255, 255, 0.04); font-size: 15px; color: var(--text-muted); }
         .pricing-features li::before { content: '✓ '; color: var(--warm); font-weight: 700; }
+        .pay-terms { font-size: 13px; color: var(--text-muted); margin-top: 14px; line-height: 1.5; }
+        .pay-terms a { color: #ef6a87; font-weight: 600; }
+        .pricing-note { text-align: center; font-size: 16px; color: var(--text-muted); margin-top: 36px; line-height: 1.6; }
+        .pricing-note a { color: #ef6a87; font-weight: 600; }
+        .intake-terms { font-size: 15px; color: var(--text-muted); text-align: center; max-width: 600px; margin: -24px auto 48px; line-height: 1.6; }
+        .intake-terms a { color: #ef6a87; font-weight: 600; }
         .cta { text-align: center; padding: 80px 24px; }
         .cta h2 { font-size: clamp(28px, 4vw, 42px); font-weight: 800; margin-bottom: 16px; }
         .cta p { font-size: 18px; color: var(--text-muted); margin-bottom: 32px; max-width: 540px; margin-left: auto; margin-right: auto; }
@@ -232,7 +238,8 @@ const ogImage = 'https://cc3po.com/wp-content/uploads/2026/04/Color-Logo-New.png
                     <li>Family contributions gathered and added by hand</li>
                     <li>Annual renewal</li>
                 </ul>
-                <a href="mailto:stories@cc3po.com?subject=Living%20Memorial%20-%20Essential%20%28199%2Fyr%29" class="btn-outline">Create a Memorial</a>
+                <a href="https://buy.stripe.com/eVqdR9ab3eeJ2Zj0N35os02" class="btn-outline">Commission Essential</a>
+                <p class="pay-terms">Secure checkout by Stripe · <a href="/commission-terms/">Commission terms</a></p>
             </div>
             <div class="pricing-card featured">
                 <div class="pricing-label">⭐ Most Popular</div>
@@ -246,7 +253,8 @@ const ogImage = 'https://cc3po.com/wp-content/uploads/2026/04/Color-Logo-New.png
                     <li>Story-gathering conversations with family</li>
                     <li>Annual renewal</li>
                 </ul>
-                <a href="mailto:stories@cc3po.com?subject=Living%20Memorial%20-%20Complete%20%28399%2Fyr%29" class="btn-primary">Create a Memorial</a>
+                <a href="https://buy.stripe.com/8x2aEX5UN6Mh43ndzP5os03" class="btn-primary">Commission Complete</a>
+                <p class="pay-terms">Secure checkout by Stripe · <a href="/commission-terms/">Commission terms</a></p>
             </div>
             <div class="pricing-card">
                 <div class="pricing-label">Legacy</div>
@@ -259,14 +267,17 @@ const ogImage = 'https://cc3po.com/wp-content/uploads/2026/04/Color-Logo-New.png
                     <li>Extended story-gathering with family</li>
                     <li>The fullest build we offer — scope confirmed together first</li>
                 </ul>
-                <a href="mailto:stories@cc3po.com?subject=Living%20Memorial%20-%20Legacy%20%28999%29" class="btn-outline">Create a Legacy Memorial</a>
+                <a href="https://buy.stripe.com/00w4gzbf7daF43ngM15os04" class="btn-outline">Commission Legacy</a>
+                <p class="pay-terms">Secure checkout by Stripe · <a href="/commission-terms/">Commission terms</a></p>
             </div>
         </div>
+        <p class="pricing-note">Not ready to pay? Start with the conversation — <a href="#intake">the intake form below</a> reserves your memorial build with no payment today.</p>
     </section>
 
     <section class="intake" id="intake">
         <h2 class="section-title">Begin Their <span class="gradient-text-warm">Memorial</span></h2>
         <p class="intake-intro">This form starts a conversation and reserves your memorial build. There's no payment today and no set delivery date — every memorial is built by hand, and we'll talk through timing and options with you before anything is made.</p>
+        <p class="intake-terms">How commissions work — payment, refunds, renewals, and your rights — is spelled out in our <a href="/commission-terms/">Commission Terms</a>.</p>
 
         <div class="intake-error" id="intake-error" role="alert"></div>
 

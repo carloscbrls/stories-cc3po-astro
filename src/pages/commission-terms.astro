@@ -1,0 +1,154 @@
+---
+import BaseHead from '../components/BaseHead.astro';
+import Navigation from '../components/Navigation.astro';
+import Footer from '../components/Footer.astro';
+
+const SITE_TITLE = 'Commission Terms | CC3PO Stories';
+const SITE_DESCRIPTION = 'How commissioning a Living Memorial from CC3PO Stories works — the process, what\'s included, payment and refunds, renewals, and your rights — in plain language.';
+const canonicalURL = new URL(Astro.url.pathname, 'https://stories.cc3po.com');
+---
+
+<!doctype html>
+<html lang="en">
+<head>
+    <BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
+    <link rel="canonical" href={canonicalURL} />
+    <meta property="og:title" content={SITE_TITLE} />
+    <meta property="og:description" content={SITE_DESCRIPTION} />
+    <meta property="og:url" content={canonicalURL} />
+    <meta property="og:type" content="website" />
+    <meta name="twitter:card" content="summary" />
+
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        :root {
+            --bg: #0a0a12;
+            --surface: #11111f;
+            --text: #f0f0f0;
+            --text-muted: #b8b8c4;
+            --accent: #e8506b;
+            --tint: #ef6a87;
+            --strong: #cf2e4f;
+        }
+        body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif; background: var(--bg); color: var(--text); line-height: 1.7; overflow-x: hidden; }
+        /* Nav offset lives on main, not body: the scoped * reset compiles to
+           [data-astro-cid] (0-1-0) and would silently zero a body padding-top
+           on pages whose <body> carries the cid attribute (same defect the
+           memorial template hit in step 1). */
+        .terms-main { padding-top: 70px; }
+        .back-link { display: inline-flex; align-items: center; gap: 8px; color: var(--text-muted); text-decoration: none; font-size: 14px; padding: 16px 24px 0; transition: color 0.2s; min-height: 44px; }
+        .back-link:hover { color: var(--tint); }
+        .terms { max-width: 760px; margin: 0 auto; padding: 40px 24px 80px; }
+        .terms h1 { font-size: clamp(30px, 4.5vw, 44px); font-weight: 800; line-height: 1.2; margin-bottom: 16px; }
+        .terms .lede { font-size: 18px; color: var(--text-muted); line-height: 1.65; margin-bottom: 16px; }
+        .terms h2 { font-size: 23px; font-weight: 800; margin: 44px 0 12px; line-height: 1.3; }
+        .terms p { font-size: 16.5px; color: var(--text-muted); line-height: 1.75; margin-bottom: 14px; }
+        .terms p strong, .terms li strong { color: var(--text); }
+        .terms ul, .terms ol { margin: 0 0 14px 22px; color: var(--text-muted); font-size: 16.5px; line-height: 1.75; }
+        .terms li { margin-bottom: 8px; }
+        .terms a { color: var(--tint); }
+        .tier-box { background: var(--surface); border: 1px solid rgba(255, 255, 255, 0.07); border-radius: 16px; padding: 24px 28px; margin-bottom: 16px; }
+        .tier-box h3 { font-size: 18px; font-weight: 800; margin-bottom: 4px; }
+        .tier-box .price { color: var(--tint); font-weight: 700; font-size: 15px; margin-bottom: 10px; }
+        .tier-box ul { margin-bottom: 0; }
+        .terms-note { background: var(--surface); border-left: 3px solid var(--strong); border-radius: 0 12px 12px 0; padding: 18px 22px; margin: 32px 0; }
+        .terms-note p { margin-bottom: 0; }
+        @media (max-width: 768px) {
+            .terms { padding: 32px 20px 60px; }
+        }
+    </style>
+</head>
+<body>
+    <Navigation />
+    <main id="main-content" class="terms-main">
+        <a href="/living-memorial/" class="back-link">← Back to Living Memorial</a>
+
+        <article class="terms">
+            <h1>Commission Terms</h1>
+            <p class="lede">These terms cover commissioning a Living Memorial from CC3PO Stories. They're written in plain language, the way we'd explain them across the table. If anything here ever differs from what we agreed with you in writing, what we agreed with you comes first — tell us, and we'll fix the page.</p>
+
+            <h2>What a commission is</h2>
+            <p>A Living Memorial is made by hand, one family at a time. When you commission one, you're asking us to build a personal memorial page for someone you love — around their photo, their timeline, their favorite music, and the stories your family shares. No two are alike, and none of it is rushed out by a machine. You're commissioning the work, the finished page, and — on the annual levels — its hosting and care for the year.</p>
+
+            <h2>How it works</h2>
+            <ol>
+                <li><strong>We start with a conversation.</strong> Through the intake form, we talk through who the memorial is for, what you want on it, and which level fits — before anything is made.</li>
+                <li><strong>Scope is confirmed together.</strong> What your memorial includes is settled in that conversation before you pay. There are no surprise charges.</li>
+                <li><strong>We gather and build.</strong> You and your family share photos, stories, dates, and music; we build the page by hand from what you send.</li>
+                <li><strong>You approve it before it's public.</strong> We send you a preview of the finished page. It goes live only when you tell us in writing — an email reply is fine — that it's approved. If we don't hear from you, it doesn't go up.</li>
+            </ol>
+
+            <h2>What's included</h2>
+            <div class="tier-box">
+                <h3>Essential</h3>
+                <p class="price">$199 per year</p>
+                <ul>
+                    <li>Personal memorial page built around their photo</li>
+                    <li>Timeline &amp; biography from the moments you share</li>
+                    <li>Their favorite music on the page</li>
+                    <li>Story notes gathered through the intake</li>
+                    <li>Family contributions gathered and added by hand</li>
+                    <li>Annual renewal</li>
+                </ul>
+            </div>
+            <div class="tier-box">
+                <h3>Complete</h3>
+                <p class="price">$399 per year</p>
+                <ul>
+                    <li>Everything in Essential</li>
+                    <li>A longer timeline, with more of their story</li>
+                    <li>Contributions gathered from more of the family</li>
+                    <li>Story-gathering conversations with family</li>
+                    <li>Annual renewal</li>
+                </ul>
+            </div>
+            <div class="tier-box">
+                <h3>Legacy</h3>
+                <p class="price">$999 one-time</p>
+                <ul>
+                    <li>Everything in Complete</li>
+                    <li>One-time commission, no annual renewal</li>
+                    <li>Extended story-gathering with family</li>
+                    <li>The fullest build we offer — scope confirmed together first</li>
+                </ul>
+            </div>
+            <p>These levels are starting points. If your memorial needs something beyond what a level describes, we confirm the scope together in the intake conversation before you pay.</p>
+
+            <h2>Changes and revisions</h2>
+            <p>Getting the facts right is always free: a misspelled name, a wrong date, a better photo — tell us and we fix it, at any level, for as long as the memorial is up. Adding new stories, timeline moments, and contributions from family is the memorial growing, and it's included as your level describes — you send them to us, and we add them by hand. A wholesale rebuild — a different person, a completely new page — is a new commission.</p>
+
+            <h2>Your photos, stories, and rights</h2>
+            <p>When you share photos, stories, and memories with us, you're confirming you have the right to share them — they're yours, your family's, or you have permission from whoever holds them. If someone else holds the rights to a photo, we may ask for their okay in writing before we use it.</p>
+            <p><strong>Your material stays yours.</strong> You and your family keep ownership of everything you send us. We use it only to build and host your memorial — nothing else. We never sell it, we never share it, and we never use it to train AI models.</p>
+            <p>If a memorial is for someone who died by suicide, we follow the same care we use across all our work: the page is about remembrance and hope, it never includes details of how they died, and every memorial page carries support resources for anyone who is struggling.</p>
+
+            <h2>Privacy: public or unlisted</h2>
+            <p>You choose. A <strong>public</strong> memorial lives at a simple address with their name. An <strong>unlisted</strong> memorial lives at an address with a random ending, and only people you share the link with can find it. Either way, the photos you send us during the build are never public until they've been placed on the page you approved.</p>
+
+            <h2>Payment and refunds</h2>
+            <p>Payment is handled securely by Stripe. You don't need to pay to start the conversation — payment happens when you're ready to commission, after we've confirmed the scope together.</p>
+            <ul>
+                <li><strong>Before work begins: full refund.</strong> If you change your mind before we've started building, you get every cent back — no questions, no forms. Just tell us.</li>
+                <li><strong>After approval and publishing: the commission is earned.</strong> Once you've approved the preview in writing and the memorial is published, the hand-built work is done and delivered. If anything about the published page doesn't match what you approved, tell us — making it right is on us.</li>
+                <li><strong>Renewals:</strong> annual levels renew once a year, and the renewal covers the memorial's hosting, updates, and care for the next year. You can stop a renewal any time before it charges. If a renewal has already charged and we haven't done update work in the new year yet, ask us and we'll refund it in full.</li>
+                <li><strong>Legacy</strong> is a one-time commission. There is no renewal, ever.</li>
+            </ul>
+
+            <h2>If a renewal isn't paid</h2>
+            <p>We will never delete your family's memorial over a missed payment. If a renewal isn't paid, the page stays up for <strong>60 more days</strong> while we try to reach you. After that, the page comes down — but everything is kept, privately and intact: the page, the stories, the photos. The memorial can be restored exactly as it was whenever you're ready. Legacy memorials have no renewal and never lapse.</p>
+
+            <h2>Taking a memorial down</h2>
+            <p>The person who commissioned the memorial can ask us to take it down at any time, for any reason. We'll take it down within one business day and confirm it in writing. Taking it down deletes nothing — the page and everything you shared stay archived privately, and you can ask for it back.</p>
+            <p>If someone else objects to a memorial — a photo, a story, the page itself — we pause the page first, taking it down temporarily while we sort it out with you. A paused page harms no one; a disputed page left up can.</p>
+
+            <h2>Timing</h2>
+            <p>We don't promise delivery dates, because every memorial is built by hand and families share their material at their own pace. In your intake conversation we'll talk honestly about timing, and we'll tell you if anything changes. If you need the memorial by a specific day — a service, an anniversary — tell us at the start, and we'll tell you plainly whether we can make it.</p>
+
+            <div class="terms-note">
+                <p><strong>Talk to a person.</strong> Questions about any of this: email <a href="mailto:stories@cc3po.com">stories@cc3po.com</a> or call <a href="tel:+12097011137">(209) 701-1137</a>. You'll reach a person, not a ticket system. These commission terms sit alongside CC3PO's general <a href="https://cc3po.com/privacy">Privacy Policy</a> and <a href="https://cc3po.com/terms">Terms of Service</a>.</p>
+            </div>
+        </article>
+    </main>
+    <Footer />
+</body>
+</html>

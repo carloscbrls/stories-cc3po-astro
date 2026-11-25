@@ -2,6 +2,7 @@
 import BaseHead from '../components/BaseHead.astro';
 import Navigation from '../components/Navigation.astro';
 import Footer from '../components/Footer.astro';
+import { spine } from '../config/spine.mjs';
 
 const SITE_TITLE = 'Living Memorial — A Memorial That Grows | CC3PO Stories';
 const SITE_DESCRIPTION = 'Not a static obituary. A living tribute page with music, stories, photos, and family contributions. It grows. It breathes. It doesn\'t fade. Starting at $199/yr.';
@@ -86,6 +87,44 @@ const ogImage = 'https://cc3po.com/wp-content/uploads/2026/04/Color-Logo-New.png
             .section { padding: 60px 20px; }
             .pricing-grid { grid-template-columns: 1fr; }
         }
+        .intake { max-width: 720px; margin: 0 auto; padding: 80px 24px; }
+        .intake-intro { font-size: 17px; color: var(--text-muted); text-align: center; max-width: 600px; margin: 0 auto 48px; line-height: 1.6; }
+        .intake-form { text-align: left; }
+        .intake-form input, .intake-form textarea { font-size: 16px; }
+        .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0 20px; }
+        .field { margin-bottom: 22px; }
+        .field label { display: block; font-size: 15px; font-weight: 600; margin-bottom: 8px; }
+        .field .hint { font-size: 13px; color: var(--text-muted); margin-top: 6px; line-height: 1.5; }
+        .field input[type="text"], .field input[type="email"], .field input[type="tel"], .field textarea {
+            width: 100%; padding: 14px 16px; font-size: 16px; font-family: inherit;
+            background: var(--surface); border: 1px solid rgba(255, 255, 255, 0.14);
+            border-radius: 12px; color: var(--text); box-sizing: border-box;
+        }
+        .field textarea { min-height: 110px; resize: vertical; line-height: 1.6; }
+        .field input:focus, .field textarea:focus { outline: 2px solid #ef6a87; outline-offset: 1px; border-color: #ef6a87; }
+        .check-field { display: flex; gap: 12px; align-items: flex-start; margin-bottom: 22px; min-height: 44px; }
+        .check-field input[type="checkbox"] { width: 22px; height: 22px; margin-top: 2px; flex-shrink: 0; accent-color: #cf2e4f; }
+        .check-field label { font-size: 15px; line-height: 1.55; cursor: pointer; }
+        .intake-submit {
+            display: inline-block; width: 100%; padding: 18px 36px; min-height: 56px;
+            background: #cf2e4f; color: #fff; font-size: 18px; font-weight: 700; font-family: inherit;
+            border: none; border-radius: 16px; cursor: pointer; transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .intake-submit:hover { transform: translateY(-2px); box-shadow: 0 12px 40px rgba(207, 46, 79, 0.35); }
+        .intake-submit:disabled { opacity: 0.6; cursor: wait; transform: none; }
+        .intake-error { display: none; background: rgba(207, 46, 79, 0.12); border: 1px solid #cf2e4f; color: #f0f0f0; border-radius: 12px; padding: 16px 20px; margin-bottom: 24px; font-size: 15px; line-height: 1.6; }
+        .intake-success { display: none; text-align: center; padding: 24px 0; }
+        .intake-success h3 { font-size: 26px; font-weight: 800; margin-bottom: 16px; }
+        .intake-success p { font-size: 17px; color: var(--text-muted); line-height: 1.7; max-width: 540px; margin: 0 auto; }
+        .care { max-width: 720px; margin: 0 auto; padding: 0 24px 80px; text-align: center; }
+        .care h2 { font-size: clamp(24px, 3.5vw, 34px); font-weight: 800; margin-bottom: 16px; }
+        .care p { font-size: 16px; color: var(--text-muted); line-height: 1.7; max-width: 600px; margin: 0 auto 16px; }
+        .care a { color: #ef6a87; }
+        .care .dlyw-door { display: inline-block; margin-top: 12px; font-size: 16px; font-weight: 600; }
+        @media (max-width: 768px) {
+            .form-grid { grid-template-columns: 1fr; }
+            .intake { padding: 60px 20px; }
+        }
     </style>
 </head>
  <Navigation />
@@ -101,7 +140,7 @@ const ogImage = 'https://cc3po.com/wp-content/uploads/2026/04/Color-Logo-New.png
             <div class="hero-quote">
                 "My mom's memorial page has her laugh on it. I visit it every morning."
             </div>
-            <a href="mailto:stories@cc3po.com?subject=Living%20Memorial%20-%20I%20want%20to%20create%20a%20memorial" class="btn-primary">Create a Memorial</a>
+            <a href="#intake" class="btn-primary">Create a Memorial</a>
         </div>
     </section>
 
@@ -234,14 +273,144 @@ const ogImage = 'https://cc3po.com/wp-content/uploads/2026/04/Color-Logo-New.png
         </div>
     </section>
 
+    <section class="intake" id="intake">
+        <h2 class="section-title">Begin Their <span class="gradient-text-warm">Memorial</span></h2>
+        <p class="intake-intro">This form starts a conversation and reserves your memorial build. There's no payment today and no set delivery date — every memorial is built by hand, and we'll talk through timing and options with you before anything is made.</p>
+
+        <div class="intake-error" id="intake-error" role="alert"></div>
+
+        <form class="intake-form" id="intake-form">
+            <div class="form-grid">
+                <div class="field">
+                    <label for="f-name">Your name</label>
+                    <input type="text" id="f-name" name="submitter_name" autocomplete="name" required maxlength="120" />
+                </div>
+                <div class="field">
+                    <label for="f-email">Your email</label>
+                    <input type="email" id="f-email" name="submitter_email" autocomplete="email" required maxlength="254" />
+                </div>
+            </div>
+            <div class="field">
+                <label for="f-phone">Your phone (optional)</label>
+                <input type="tel" id="f-phone" name="submitter_phone" autocomplete="tel" maxlength="40" />
+            </div>
+            <div class="form-grid">
+                <div class="field">
+                    <label for="f-for">Who this memorial is for</label>
+                    <input type="text" id="f-for" name="memorial_for_name" required maxlength="160" />
+                </div>
+                <div class="field">
+                    <label for="f-dates">Their dates (optional)</label>
+                    <input type="text" id="f-dates" name="memorial_dates" placeholder="e.g., 1948 – 2024" maxlength="120" />
+                </div>
+            </div>
+            <div class="field">
+                <label for="f-relationship">Your relationship to them</label>
+                <input type="text" id="f-relationship" name="relationship" placeholder="e.g., my mother, my best friend" maxlength="120" />
+            </div>
+            <div class="check-field">
+                <input type="checkbox" id="f-photo" name="has_photo" />
+                <label for="f-photo">I have a photo of them I'd like to include — we'll reply by email so you can send it to us.</label>
+            </div>
+            <div class="field">
+                <label for="f-music">Their favorite music or songs</label>
+                <textarea id="f-music" name="favorite_music" maxlength="2000"></textarea>
+            </div>
+            <div class="field">
+                <label for="f-stories">Story notes</label>
+                <textarea id="f-stories" name="story_notes" maxlength="5000"></textarea>
+                <p class="hint">The stories you most want told — the big moments and the small ones.</p>
+            </div>
+            <div class="field">
+                <label for="f-timeline">Timeline moments</label>
+                <textarea id="f-timeline" name="timeline_moments" maxlength="5000"></textarea>
+                <p class="hint">Milestones, places, and moments that mattered. One per line is fine.</p>
+            </div>
+            <div class="field">
+                <label for="f-anything">Anything else — tell us in your words</label>
+                <textarea id="f-anything" name="anything_else" required maxlength="5000"></textarea>
+            </div>
+            <div class="check-field">
+                <input type="checkbox" id="f-consent" name="consent_share" required />
+                <label for="f-consent">I confirm I have the right to share these photos and stories.</label>
+            </div>
+            <button type="submit" class="intake-submit" id="intake-submit">Start the Conversation</button>
+        </form>
+
+        <div class="intake-success" id="intake-success" tabindex="-1">
+            <h3>Thank you — we've received it.</h3>
+            <p>Your words are with us now. We'll reply to your email soon to talk through the memorial — and if you have a photo to share, how to send it to us. There's nothing else you need to do right now.</p>
+        </div>
+    </section>
+
+    <section class="care">
+        <h2>If You're Grieving Right Now</h2>
+        <p>Grief can get heavy without warning, and you don't have to carry it alone. If you're struggling, call or text <strong>988</strong> any time — the Suicide and Crisis Lifeline is free, confidential, and answered by people who understand. <a href="https://griefshare.org" target="_blank" rel="noopener noreferrer">GriefShare</a> runs grief support groups in communities across the country.</p>
+        <p><a class="dlyw-door" href="https://dontloseyourway.cc3po.com/start-here/?utm_source=stories.cc3po.com&utm_medium=memorial-page&utm_campaign=dlyw-story">Don't Lose Your Way — our sister space of stories and music for people carrying hard nights. Start here →</a></p>
+    </section>
+
     <section class="cta">
         <h2>Ready to create a memorial that <span class="gradient-text-warm">grows</span>?</h2>
         <p>A memorial should be as alive as the person it honors. Let's build something that breathes.</p>
-        <a href="mailto:stories@cc3po.com?subject=Living%20Memorial%20-%20I%20want%20to%20create%20a%20memorial" class="btn-primary">Create a Memorial</a>
+        <a href="#intake" class="btn-primary">Create a Memorial</a>
         <p style="margin-top: 24px; font-size: 14px; color: var(--text-muted);">Or email us at stories@cc3po.com — we'll set up a time to talk.</p>
     </section>
 
         </main>
     <Footer />
+    <script define:vars={{ spineUrl: spine.url, spineKey: spine.anonKey }}>
+      const form = document.getElementById('intake-form');
+      const errorBox = document.getElementById('intake-error');
+      const successBox = document.getElementById('intake-success');
+      const submitBtn = document.getElementById('intake-submit');
+
+      form?.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        if (errorBox) errorBox.style.display = 'none';
+        if (submitBtn) { submitBtn.disabled = true; submitBtn.textContent = 'Sending…'; }
+
+        const fd = new FormData(form);
+        const val = (k) => (fd.get(k) || '').toString().trim();
+        const payload = {
+          submitter_name: val('submitter_name'),
+          submitter_email: val('submitter_email'),
+          submitter_phone: val('submitter_phone') || null,
+          memorial_for_name: val('memorial_for_name'),
+          memorial_dates: val('memorial_dates') || null,
+          relationship: val('relationship') || null,
+          has_photo: fd.get('has_photo') === 'on',
+          photo_plan: 'reply_email',
+          favorite_music: val('favorite_music') || null,
+          story_notes: val('story_notes') || null,
+          timeline_moments: val('timeline_moments') || null,
+          anything_else: val('anything_else'),
+          consent_share: fd.get('consent_share') === 'on',
+          source: 'stories.cc3po.com/living-memorial',
+        };
+
+        try {
+          const res = await fetch(spineUrl + '/rest/v1/stories_intake', {
+            method: 'POST',
+            headers: {
+              'apikey': spineKey,
+              'Authorization': 'Bearer ' + spineKey,
+              'Content-Type': 'application/json',
+              'Prefer': 'return=minimal',
+            },
+            body: JSON.stringify(payload),
+          });
+          if (!res.ok) throw new Error('submit failed: ' + res.status);
+          form.style.display = 'none';
+          if (successBox) { successBox.style.display = 'block'; successBox.focus(); successBox.scrollIntoView({ behavior: 'smooth', block: 'center' }); }
+        } catch (err) {
+          if (errorBox) {
+            errorBox.textContent = "Something didn't go through. Please try again — or email us at stories@cc3po.com and we'll take it from there.";
+            errorBox.style.display = 'block';
+            errorBox.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          }
+          if (submitBtn) { submitBtn.disabled = false; submitBtn.textContent = 'Start the Conversation'; }
+        }
+      });
+    </script>
 </body>
 </html>

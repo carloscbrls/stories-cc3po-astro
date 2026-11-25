@@ -1,4 +1,6 @@
 ---
+import VillageRail from './VillageRail.astro';
+
 const currentYear = new Date().getFullYear();
 
 const socialLinks = [
@@ -31,7 +33,7 @@ function getSvg(icon: string) {
     font-size: 13px;
   }
   footer a {
-    color: #e94560;
+    color: #ef6a87;
     text-decoration: none;
   }
   footer a:hover {
@@ -57,20 +59,21 @@ function getSvg(icon: string) {
     transition: all 0.2s;
   }
   .social-icon:hover {
-    background: rgba(107, 53, 255, 0.1);
-    border-color: rgba(107, 53, 255, 0.3);
+    background: rgba(207, 46, 79, 0.12);
+    border-color: rgba(239, 106, 135, 0.4);
     color: #fff;
     transform: translateY(-2px);
   }
 </style>
 
 <footer>
+  <VillageRail />
   <p class="footer-certifications" style="font-size:12px;color:#d4d4d8;margin-bottom:4px;">CA Certified Small Business — SB #2052063 · Latino-Owned Business · Se habla español</p>
   <p>&copy; 2024–{currentYear} CC3PO™ LLC. All rights reserved.</p>
 		<p style="font-size:11px;color:var(--text-muted, #d4d4d8);">CC3PO™, Living Compliance Score™, and The Village™ are trademarks of CC3PO LLC.</p>
   <p style="margin-top: 4px; font-size: 12px; color: #d4d4d8;">16299 Adobe Way, Lathrop, CA 95330</p>
   <p style="margin-top: 12px; font-size: 12px;">
-    <a href="/privacy">Privacy Policy</a> · <a href="/terms">Terms of Service</a> · <a href="/disclaimer">Disclaimer</a>
+    <a href="https://cc3po.com/privacy">Privacy Policy</a> · <a href="https://cc3po.com/terms">Terms of Service</a> · <a href="https://cc3po.com">Disclaimer</a>
   </p>
   <div style="margin-top: 16px; font-size: 12px; display: flex; gap: 12px; justify-content: center; flex-wrap: wrap;">
     <a href="https://cc3po.com" style="color: #d4d4d8;">Main Site</a> ·

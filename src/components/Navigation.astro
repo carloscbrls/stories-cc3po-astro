@@ -1,4 +1,6 @@
 ---
+import cc3poLockup from '../assets/cc3po-lockup-on-dark.svg';
+
 const navLinks = [
   { label: 'Blog', href: 'https://insights.cc3po.com' },
   { label: 'Main Site', href: 'https://cc3po.com' },
@@ -39,30 +41,15 @@ const navLinks = [
     text-decoration: none;
     color: #fff;
   }
-  .logo-icon {
-    width: 36px;
-    height: 36px;
-    border-radius: 10px;
-    background: linear-gradient(135deg, #f59e0b, #e94560, #7c3aed);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 18px;
-    font-weight: 800;
-    color: white;
+  .logo-lockup {
+    height: 40px;
+    width: auto;
+    display: block;
   }
-  .logo-text {
-    font-size: 20px;
-    font-weight: 700;
-    color: #fff;
-    letter-spacing: -0.02em;
-  }
-  .logo-cc { color: #f59e0b; }
-  .logo-3po { color: #fff; }
   .logo-sub {
     color: #a1a1aa;
-    font-weight: 400;
-    font-size: 13px;
+    font-weight: 500;
+    font-size: 15px;
     margin-left: 2px;
   }
   .nav-links {
@@ -91,7 +78,7 @@ const navLinks = [
     left: 0;
     width: 0;
     height: 2px;
-    background: linear-gradient(90deg, #f59e0b, #e94560);
+    background: #ef6a87;
     transition: width 0.2s;
   }
   .nav-links a:hover::after {
@@ -101,7 +88,7 @@ const navLinks = [
     display: inline-flex;
     align-items: center;
     padding: 10px 24px;
-    background: linear-gradient(135deg, #f59e0b, #e94560);
+    background: #cf2e4f;
     color: #fff !important;
     font-weight: 600;
     border-radius: 12px;
@@ -109,7 +96,7 @@ const navLinks = [
   }
   .nav-cta:hover {
     transform: translateY(-1px);
-    box-shadow: 0 8px 24px rgba(245, 158, 11, 0.3);
+    box-shadow: 0 8px 24px rgba(207, 46, 79, 0.35);
   }
   .nav-cta::after {
     display: none !important;
@@ -171,13 +158,13 @@ const navLinks = [
     transition: color 0.2s;
   }
   .mobile-menu a:hover {
-    color: #f59e0b;
+    color: #ef6a87;
   }
   .mobile-cta {
     display: inline-flex;
     align-items: center;
     padding: 14px 32px;
-    background: linear-gradient(135deg, #f59e0b, #e94560);
+    background: #cf2e4f;
     color: #fff;
     font-weight: 700;
     border-radius: 14px;
@@ -199,8 +186,8 @@ const navLinks = [
 <nav class="nav" id="stories-nav">
   <div class="inner">
     <a href="https://stories.cc3po.com" class="logo">
-      <div class="logo-icon">C3</div>
-      <span class="logo-text"><span class="logo-cc">CC</span><span class="logo-3po">3PO</span><span class="logo-sub">Stories</span></span>
+      <img src={cc3poLockup.src} alt="CC3PO" class="logo-lockup" width="108" height="40" />
+      <span class="logo-sub">Stories</span>
     </a>
     <ul class="nav-links">
       {navLinks.map(link => (

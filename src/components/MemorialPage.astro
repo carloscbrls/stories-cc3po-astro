@@ -1,0 +1,227 @@
+---
+// Living Memorial page template — renders one memorial record from
+// src/data/memorials.mjs. The page is built around their photo:
+// hero photo → their story → their words → timeline → their music →
+// the small things → family contributions → the grief-care standard
+// (988 note + quiet Don't Lose Your Way door, same as /living-memorial/).
+//
+// Nightshift tokens only (fleet standard): accent backgrounds #cf2e4f,
+// accent text/tints #ef6a87, brand accent #e8506b, night surfaces.
+import BaseHead from './BaseHead.astro';
+import Navigation from './Navigation.astro';
+import Footer from './Footer.astro';
+
+const { memorial: m } = Astro.props;
+
+const title = m.sample
+  ? `Sample Memorial — ${m.name} | CC3PO Stories`
+  : `${m.name} — Living Memorial | CC3PO Stories`;
+const description = m.sample
+  ? `A sample Living Memorial showing the shape of a hand-built memorial page: their photo, their story, their music, and the voices of the people who love them.`
+  : `The living memorial for ${m.name}${m.dates ? ` (${m.dates})` : ''} — their photo, their story, their music, and the voices of the people who love them. Built by hand by CC3PO Stories.`;
+const canonicalURL = new URL(Astro.url.pathname, 'https://stories.cc3po.com');
+---
+
+<!doctype html>
+<html lang="en">
+<head>
+    <BaseHead title={title} description={description} />
+    <link rel="canonical" href={canonicalURL} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    {m.heroImage && <meta property="og:image" content={`https://stories.cc3po.com${m.heroImage}`} />}
+    <meta property="og:url" content={canonicalURL} />
+    <meta property="og:type" content="website" />
+    <meta name="twitter:card" content="summary_large_image" />
+
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        :root {
+            --bg: #0a0a12;
+            --surface: #11111f;
+            --surface-light: #1a1a26;
+            --text: #f5f5f7;
+            --muted: rgba(255, 255, 255, 0.78);
+            --accent: #e8506b;
+            --accent-tint: #ef6a87;
+            --accent-strong: #cf2e4f;
+            --line: rgba(255, 255, 255, 0.09);
+        }
+        :global(body) { font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif; background: var(--bg); color: var(--text); line-height: 1.7; overflow-x: hidden; }
+        /* Nav offset lives on main, not body: in a component, Astro scopes
+           the * reset to [data-astro-cid] (0-1-0), which outranks a plain
+           body rule (0-0-1) and silently zeroes body padding-top. */
+        .memorial-main { padding-top: 70px; }
+        .wrap { max-width: 780px; margin: 0 auto; padding: 0 24px; }
+        .back-link { display: inline-flex; align-items: center; gap: 8px; color: var(--muted); text-decoration: none; font-size: 14px; padding: 16px 24px 0; transition: color 0.2s; }
+        .back-link:hover { color: var(--accent-tint); }
+        .sample-banner { max-width: 780px; margin: 24px auto 0; padding: 0 24px; }
+        .sample-banner-inner { border: 1px solid var(--accent-tint); background: rgba(207, 46, 79, 0.10); border-radius: 14px; padding: 16px 20px; font-size: 15px; line-height: 1.6; color: var(--text); }
+        .sample-banner-inner strong { color: var(--accent-tint); letter-spacing: 0.04em; text-transform: uppercase; font-size: 13px; display: block; margin-bottom: 4px; }
+        .hero { text-align: center; padding: 48px 24px 8px; max-width: 880px; margin: 0 auto; }
+        .hero-figure { margin: 0 auto 32px; max-width: 880px; }
+        .hero-figure img { width: 100%; height: auto; display: block; border-radius: 20px; border: 1px solid var(--line); }
+        .hero-figure figcaption { font-size: 14px; color: var(--muted); margin-top: 12px; line-height: 1.55; }
+        .hero-label { display: inline-block; padding: 8px 20px; background: rgba(207, 46, 79, 0.12); border: 1px solid rgba(239, 106, 135, 0.4); border-radius: 100px; font-size: 13px; font-weight: 600; color: var(--accent-tint); margin-bottom: 22px; letter-spacing: 0.05em; text-transform: uppercase; }
+        .hero h1 { font-size: clamp(34px, 6vw, 54px); font-weight: 800; line-height: 1.12; margin-bottom: 10px; }
+        .hero .dates { font-size: 19px; color: var(--accent-tint); font-weight: 600; letter-spacing: 0.06em; margin-bottom: 14px; }
+        .hero .tagline { font-size: 20px; color: var(--muted); font-style: italic; line-height: 1.55; max-width: 560px; margin: 0 auto; }
+        .section { padding: 44px 0 8px; }
+        .section h2 { font-size: clamp(24px, 4vw, 32px); font-weight: 800; margin-bottom: 20px; }
+        .section p { font-size: 17px; color: var(--muted); line-height: 1.75; margin-bottom: 18px; }
+        .section p strong, .section p em { color: var(--text); }
+        blockquote.words { border-left: 3px solid var(--accent); padding: 6px 0 6px 24px; margin: 36px 0; }
+        blockquote.words p { font-size: clamp(21px, 3.4vw, 27px); font-style: italic; color: var(--text); line-height: 1.5; margin-bottom: 10px; }
+        blockquote.words figcaption { font-size: 15px; color: var(--muted); }
+        .timeline { list-style: none; margin-top: 8px; }
+        .timeline li { display: grid; grid-template-columns: 92px 1fr; gap: 20px; padding: 20px 0; border-bottom: 1px solid var(--line); }
+        .timeline li:last-child { border-bottom: none; }
+        .timeline .when { font-weight: 800; color: var(--accent-tint); font-size: 17px; padding-top: 2px; }
+        .timeline h3 { font-size: 18px; font-weight: 700; margin-bottom: 6px; }
+        .timeline p { font-size: 16px; margin-bottom: 0; }
+        .music-note { font-size: 17px; color: var(--muted); line-height: 1.7; margin-bottom: 20px; }
+        .song-list { list-style: none; }
+        .song-list li { background: var(--surface); border: 1px solid var(--line); border-radius: 16px; padding: 20px 22px; margin-bottom: 14px; }
+        .song-list h3 { font-size: 17px; font-weight: 700; margin-bottom: 4px; }
+        .song-list p { font-size: 15px; margin-bottom: 0; }
+        .music-embed { margin: 22px 0 6px; }
+        .music-embed iframe { width: 100%; border: 0; border-radius: 12px; display: block; }
+        .sample-note { font-size: 14px; color: var(--muted); border: 1px dashed rgba(239, 106, 135, 0.45); border-radius: 12px; padding: 12px 16px; margin-top: 18px; line-height: 1.6; }
+        .note-card { background: var(--surface); border: 1px solid var(--line); border-radius: 16px; padding: 24px; margin-bottom: 16px; }
+        .note-card h3 { font-size: 18px; font-weight: 700; margin-bottom: 8px; }
+        .note-card p { font-size: 16px; margin-bottom: 0; }
+        .contribution { background: var(--surface); border: 1px solid var(--line); border-radius: 16px; padding: 24px; margin-bottom: 16px; }
+        .contribution p { font-size: 16.5px; color: var(--text); font-style: italic; line-height: 1.7; margin-bottom: 12px; }
+        .contribution .from { font-size: 14.5px; color: var(--muted); font-style: normal; }
+        .contribution .from strong { color: var(--accent-tint); font-weight: 700; }
+        .care { max-width: 720px; margin: 0 auto; padding: 56px 24px 72px; text-align: center; }
+        .care h2 { font-size: clamp(24px, 3.5vw, 32px); font-weight: 800; margin-bottom: 16px; }
+        .care p { font-size: 16px; color: var(--muted); line-height: 1.7; max-width: 600px; margin: 0 auto 16px; }
+        .care a { color: var(--accent-tint); }
+        .care .dlyw-door { display: inline-block; margin-top: 12px; font-size: 16px; font-weight: 600; padding: 10px 6px; }
+        .built-note { text-align: center; font-size: 14px; color: var(--muted); padding: 0 24px 56px; line-height: 1.6; }
+        @media (max-width: 640px) {
+            .timeline li { grid-template-columns: 1fr; gap: 4px; }
+            .hero { padding-top: 36px; }
+        }
+    </style>
+</head>
+<body>
+    <Navigation />
+    <main id="main-content" class="memorial-main">
+        <a href="/living-memorial/" class="back-link">← Living Memorial</a>
+
+        {m.sample && (
+            <div class="sample-banner">
+                <p class="sample-banner-inner">
+                    <strong>Sample memorial</strong>
+                    {m.name} is a fictional person. Every word, date, and image on this page is a placeholder, placed here so you can see the shape of a real Living Memorial before you commission one. No real family&rsquo;s story appears on this page.
+                </p>
+            </div>
+        )}
+
+        <section class="hero">
+            {m.heroImage && (
+                <figure class="hero-figure">
+                    <img src={m.heroImage} alt={m.heroAlt} width="1600" height="900" loading="eager" />
+                    {m.heroCaption && <figcaption>{m.heroCaption}</figcaption>}
+                </figure>
+            )}
+            <div class="hero-label">Living Memorial</div>
+            <h1>{m.name}</h1>
+            {m.dates && <p class="dates">{m.dates}</p>}
+            {m.tagline && <p class="tagline">{m.tagline}</p>}
+        </section>
+
+        <div class="wrap">
+            <section class="section" aria-labelledby="story-h">
+                <h2 id="story-h">Their Story</h2>
+                {m.biography.map((para) => <p>{para}</p>)}
+            </section>
+
+            {m.quote && (
+                <figure>
+                    <blockquote class="words">
+                        <p>&ldquo;{m.quote.text}&rdquo;</p>
+                        <figcaption>{m.quote.attribution}</figcaption>
+                    </blockquote>
+                </figure>
+            )}
+
+            {m.timeline?.length > 0 && (
+                <section class="section" aria-labelledby="road-h">
+                    <h2 id="road-h">The Road They Walked</h2>
+                    <ol class="timeline">
+                        {m.timeline.map((t) => (
+                            <li>
+                                <div class="when">{t.when}</div>
+                                <div>
+                                    <h3>{t.title}</h3>
+                                    <p>{t.text}</p>
+                                </div>
+                            </li>
+                        ))}
+                    </ol>
+                </section>
+            )}
+
+            {m.music && (
+                <section class="section" aria-labelledby="music-h">
+                    <h2 id="music-h">Their Music</h2>
+                    {m.music.note && <p class="music-note">{m.music.note}</p>}
+                    <ul class="song-list">
+                        {m.music.songs.map((s) => (
+                            <li>
+                                <h3>{s.title}</h3>
+                                {s.note && <p>{s.note}</p>}
+                            </li>
+                        ))}
+                    </ul>
+                    {m.music.embedUrl && (
+                        <div class="music-embed">
+                            <iframe src={m.music.embedUrl} height="166" loading="lazy" title={`Music player — songs ${m.name} loved`} allow="autoplay; encrypted-media" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                        </div>
+                    )}
+                    {m.sample && !m.music.embedUrl && (
+                        <p class="sample-note">Sample note: on a real memorial, their favorite songs play right here on the page, through the official music player.</p>
+                    )}
+                </section>
+            )}
+
+            {m.storyNotes?.length > 0 && (
+                <section class="section" aria-labelledby="small-h">
+                    <h2 id="small-h">The Small Things</h2>
+                    {m.storyNotes.map((n) => (
+                        <article class="note-card">
+                            <h3>{n.title}</h3>
+                            <p>{n.text}</p>
+                        </article>
+                    ))}
+                </section>
+            )}
+
+            {m.contributions?.length > 0 && (
+                <section class="section" aria-labelledby="voices-h">
+                    <h2 id="voices-h">More Voices</h2>
+                    {m.sample && <p>Sample contributions — on a real memorial, family and friends send their memories to us, and we add them here by hand, with the family&rsquo;s approval.</p>}
+                    {m.contributions.map((c) => (
+                        <article class="contribution">
+                            <p>&ldquo;{c.text}&rdquo;</p>
+                            <p class="from"><strong>{c.from}</strong>{c.relation ? ` — ${c.relation}` : ''}</p>
+                        </article>
+                    ))}
+                </section>
+            )}
+        </div>
+
+        <section class="care">
+            <h2>If You're Grieving Right Now</h2>
+            <p>Grief can get heavy without warning, and you don't have to carry it alone. If you're struggling, call or text <strong>988</strong> any time — the Suicide and Crisis Lifeline is free, confidential, and answered by people who understand. <a href="https://griefshare.org" target="_blank" rel="noopener noreferrer">GriefShare</a> runs grief support groups in communities across the country.</p>
+            <p><a class="dlyw-door" href="https://dontloseyourway.cc3po.com/start-here/?utm_source=stories.cc3po.com&utm_medium=memorial-page&utm_campaign=dlyw-story">Don't Lose Your Way — our sister space of stories and music for people carrying hard nights. Start here →</a></p>
+        </section>
+
+        {m.builtNote && <p class="built-note">{m.builtNote}</p>}
+    </main>
+    <Footer />
+</body>
+</html>

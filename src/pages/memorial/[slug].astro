@@ -1,0 +1,18 @@
+---
+// Living Memorial route — one static page per record in
+// src/data/memorials.mjs, rendered through the MemorialPage template.
+// A new memorial ships by adding a record (see MEMORIAL-RUNBOOK.md).
+import MemorialPage from '../../components/MemorialPage.astro';
+import { memorials } from '../../data/memorials.mjs';
+
+export function getStaticPaths() {
+  return memorials.map((memorial) => ({
+    params: { slug: memorial.slug },
+    props: { memorial },
+  }));
+}
+
+const { memorial } = Astro.props;
+---
+
+<MemorialPage memorial={memorial} />

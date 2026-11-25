@@ -101,6 +101,9 @@ const ogImage = 'https://cc3po.com/wp-content/uploads/2026/04/Color-Logo-New.png
             border-radius: 12px; color: var(--text); box-sizing: border-box;
         }
         .field textarea { min-height: 110px; resize: vertical; line-height: 1.6; }
+        .field input[type="file"] { width: 100%; padding: 14px 16px; font-size: 16px; font-family: inherit; background: var(--surface); border: 1px solid rgba(255, 255, 255, 0.14); border-radius: 12px; color: var(--text); box-sizing: border-box; min-height: 52px; }
+        .sample-link { text-align: center; margin-top: 40px; font-size: 16px; color: var(--text-muted); line-height: 1.6; }
+        .sample-link a { color: #ef6a87; font-weight: 600; display: inline-flex; align-items: center; min-height: 44px; padding: 6px 4px; }
         .field input:focus, .field textarea:focus { outline: 2px solid #ef6a87; outline-offset: 1px; border-color: #ef6a87; }
         .check-field { display: flex; gap: 12px; align-items: flex-start; margin-bottom: 22px; min-height: 44px; }
         .check-field input[type="checkbox"] { width: 22px; height: 22px; margin-top: 2px; flex-shrink: 0; accent-color: #cf2e4f; }
@@ -174,6 +177,7 @@ const ogImage = 'https://cc3po.com/wp-content/uploads/2026/04/Color-Logo-New.png
                 <p>Choose who can see and contribute. Keep it private for family, or open it to anyone who knew them. You control who sees their story.</p>
             </div>
         </div>
+        <p class="sample-link"><a href="/memorial/sample/">See a sample memorial →</a><br />A fictional example, so you can see exactly what a finished memorial page looks like.</p>
     </section>
 
     <section class="section">
@@ -297,7 +301,12 @@ const ogImage = 'https://cc3po.com/wp-content/uploads/2026/04/Color-Logo-New.png
             </div>
             <div class="check-field">
                 <input type="checkbox" id="f-photo" name="has_photo" />
-                <label for="f-photo">I have a photo of them I'd like to include — we'll reply by email so you can send it to us.</label>
+                <label for="f-photo">I have a photo of them I'd like to include.</label>
+            </div>
+            <div class="field">
+                <label for="f-photos">Photos of them (optional)</label>
+                <input type="file" id="f-photos" name="photos" accept="image/jpeg,image/png,image/webp,image/gif" multiple />
+                <p class="hint">You can add up to 4 photos right here (JPG, PNG, or WebP, up to 10 MB each). If the upload doesn't go through — or you'd rather send them later — we'll reply by email so you can send them to us that way instead. Photos you send are private: they are never posted anywhere until we build the memorial with you.</p>
             </div>
             <div class="field">
                 <label for="f-music">Their favorite music or songs</label>
@@ -358,6 +367,41 @@ const ogImage = 'https://cc3po.com/wp-content/uploads/2026/04/Color-Logo-New.png
 
         const fd = new FormData(form);
         const val = (k) => (fd.get(k) || '').toString().trim();
+
+        // Photo upload — private stories-submissions bucket; the anon key
+        // may only INSERT under intake/<id>/ and can never read anything
+        // back. Any failure (or no photos chosen) falls back to the
+        // reply-by-email plan, so the form always works.
+        const photoPaths = [];
+        const fileInput = document.getElementById('f-photos');
+        const files = fileInput?.files ? Array.from(fileInput.files).slice(0, 4) : [];
+        if (files.length) {
+          if (submitBtn) submitBtn.textContent = 'Sending photos…';
+          const intakeId = (window.crypto && crypto.randomUUID)
+            ? crypto.randomUUID()
+            : 'intake-' + Date.now().toString(36);
+          for (let i = 0; i < files.length; i++) {
+            const f = files[i];
+            if (!f.type.startsWith('image/') || f.size > 10 * 1024 * 1024) continue;
+            const ext = ((f.name.split('.').pop() || 'jpg').toLowerCase().replace(/[^a-z0-9]/g, '')) || 'jpg';
+            const path = 'intake/' + intakeId + '/photo-' + (i + 1) + '.' + ext;
+            try {
+              const up = await fetch(spineUrl + '/storage/v1/object/stories-submissions/' + path, {
+                method: 'POST',
+                headers: {
+                  'apikey': spineKey,
+                  'Authorization': 'Bearer ' + spineKey,
+                  'Content-Type': f.type || 'image/jpeg',
+                  'x-upsert': 'false',
+                },
+                body: f,
+              });
+              if (up.ok) photoPaths.push(path);
+            } catch (_) { /* upload failed — reply-by-email fallback carries it */ }
+          }
+          if (submitBtn) submitBtn.textContent = 'Sending…';
+        }
+
         const payload = {
           submitter_name: val('submitter_name'),
           submitter_email: val('submitter_email'),
@@ -365,8 +409,9 @@ const ogImage = 'https://cc3po.com/wp-content/uploads/2026/04/Color-Logo-New.png
           memorial_for_name: val('memorial_for_name'),
           memorial_dates: val('memorial_dates') || null,
           relationship: val('relationship') || null,
-          has_photo: fd.get('has_photo') === 'on',
-          photo_plan: 'reply_email',
+          has_photo: fd.get('has_photo') === 'on' || files.length > 0,
+          photo_plan: photoPaths.length ? 'upload' : 'reply_email',
+          photo_paths: photoPaths,
           favorite_music: val('favorite_music') || null,
           story_notes: val('story_notes') || null,
           timeline_moments: val('timeline_moments') || null,

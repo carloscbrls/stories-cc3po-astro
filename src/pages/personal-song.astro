@@ -134,7 +134,7 @@ const ogImage = 'https://cc3po.com/wp-content/uploads/2026/04/Color-Logo-New.png
             <h1>A Song Written <span class="gradient-text-warm">Just For Them</span></h1>
             <p>A song written for them. About them. Using their words, their stories, their feeling. Not a template — a unique piece of music that sounds like who they are.</p>
             <div class="hero-quote">
-                "It sounds like Sunday mornings at my mom's house. I play it every day."
+                The first Personal Songs are being commissioned now — each one written for one person's story, and built by hand.
             </div>
             <a href="#intake" class="btn-primary">Create Their Song</a>
         </div>
@@ -229,7 +229,7 @@ const ogImage = 'https://cc3po.com/wp-content/uploads/2026/04/Color-Logo-New.png
                     <li>1 revision round</li>
                     <li>Delivered within 2 weeks</li>
                 </ul>
-                <a href="mailto:stories@cc3po.com?subject=Personal%20Song%20-%20Single%20Song%20%28199%29" class="btn-outline">Create Their Song</a>
+                <a href="#intake" class="btn-outline" data-package="Single">Create Their Song</a>
             </div>
             <div class="pricing-card featured">
                 <div class="pricing-label">⭐ Most Popular</div>
@@ -245,7 +245,7 @@ const ogImage = 'https://cc3po.com/wp-content/uploads/2026/04/Color-Logo-New.png
                     <li>Digital album artwork</li>
                     <li>Delivered within 4 weeks</li>
                 </ul>
-                <a href="mailto:stories@cc3po.com?subject=Personal%20Song%20-%20Album%20Package%20%28499%29" class="btn-primary">Create Their Album</a>
+                <a href="#intake" class="btn-primary" data-package="Album Package">Create Their Album</a>
             </div>
             <div class="pricing-card">
                 <div class="pricing-label">Legacy</div>
@@ -262,7 +262,7 @@ const ogImage = 'https://cc3po.com/wp-content/uploads/2026/04/Color-Logo-New.png
                     <li>Dedicated composer collaboration</li>
                     <li>Delivered within 6 weeks</li>
                 </ul>
-                <a href="mailto:stories@cc3po.com?subject=Personal%20Song%20-%20Legacy%20Set%20%28899%29" class="btn-outline">Create Their Legacy</a>
+                <a href="#intake" class="btn-outline" data-package="Legacy Set">Create Their Legacy</a>
             </div>
         </div>
     </section>
@@ -324,6 +324,16 @@ const ogImage = 'https://cc3po.com/wp-content/uploads/2026/04/Color-Logo-New.png
                 </div>
             </div>
             <div class="field">
+                <label for="f-package">I'm interested in</label>
+                <select id="f-package" name="package_interest">
+                    <option value="Not sure yet" selected>Not sure yet — help me choose</option>
+                    <option value="Single">Single — one song</option>
+                    <option value="Album Package">Album Package — three songs</option>
+                    <option value="Legacy Set">Legacy Set — five songs + vinyl</option>
+                </select>
+                <p class="hint">If you picked one of the packages above, it's already selected here — change it if you'd like. We confirm the package together in our reply; nothing is charged from this form.</p>
+            </div>
+            <div class="field">
                 <label for="f-anything">Anything else — tell us in your words</label>
                 <textarea id="f-anything" name="anything_else" maxlength="5000"></textarea>
             </div>
@@ -351,6 +361,19 @@ const ogImage = 'https://cc3po.com/wp-content/uploads/2026/04/Color-Logo-New.png
     <Footer />
     <script define:vars={{ spineUrl: spine.url, spineKey: spine.anonKey }}>
       const form = document.getElementById('intake-form');
+      const packageSelect = document.getElementById('f-package');
+      // Package cards carry their package into the intake: a click pre-sets
+      // the visible "I'm interested in" select (the visitor can change it),
+      // and a ?package= link does the same on load.
+      const setPackage = (pkg) => {
+        if (pkg && packageSelect && [...packageSelect.options].some((o) => o.value === pkg)) {
+          packageSelect.value = pkg;
+        }
+      };
+      document.querySelectorAll('[data-package]').forEach((link) => {
+        link.addEventListener('click', () => setPackage(link.getAttribute('data-package')));
+      });
+      setPackage(new URLSearchParams(window.location.search).get('package'));
       const errorBox = document.getElementById('intake-error');
       const successBox = document.getElementById('intake-success');
       const submitBtn = document.getElementById('intake-submit');
@@ -374,6 +397,7 @@ const ogImage = 'https://cc3po.com/wp-content/uploads/2026/04/Color-Logo-New.png
           language: val('language') || 'English',
           needed_by_date: val('needed_by_date') || null,
           anything_else: val('anything_else') || null,
+          package_interest: val('package_interest') || 'Not sure yet',
           consent_share: fd.get('consent_share') === 'on',
           source: 'stories.cc3po.com/personal-song',
         };
